@@ -1,16 +1,19 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, FormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MetadataValidation} from 'src/app/shared/validator/metadatavalidation';
 import {Hyperparameters} from "../../shared/interface/hyperparameters";
 import {HyperparametersItems} from "../../shared/interface/hyperparametersItems";
 import {ArchetypeService} from "../../core/services/archetype.service";
+import {CommonModule} from "@angular/common";
 
 @Component({
-    selector: 'app-archetype',
-    templateUrl: './archetype.component.html',
-    styleUrls: ['./archetype.component.css'],
+    selector: 'archetype-home',
+    standalone: true,
+    imports: [CommonModule],
+    templateUrl: './archetype-home.component.html',
+    styleUrls: ['./archetype-home.component.css'],
 })
-export class ArchetypeComponent implements OnInit {
+export class ArchetypeHomeComponent implements OnInit {
     private readonly _basePath: string = 'http://localhost:3000/api/udphyperparameters/v1';
     private readonly _description: string = '/description';
     private readonly _databases: string = '/databases';
