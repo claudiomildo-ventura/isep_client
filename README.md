@@ -1,7 +1,7 @@
 <article class="markdown-body entry-content container-lg f5" itemprop="text">
 
-  <h1 id="udpp-unified-development-platform">
-    <a class="anchor" aria-hidden="true" tabindex="-1" href="#udpp-unified-development-platform">
+  <h1 id="project">
+    <a class="anchor" aria-hidden="true" tabindex="-1" href="#project">
       🔗
     </a>
     UDP - Unified Development Platform

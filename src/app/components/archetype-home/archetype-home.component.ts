@@ -26,6 +26,7 @@ export class ArchetypeHomeComponent implements OnInit {
     public databasesEngineer: HyperparametersItems[] = [{id: 0, data: ''}];
     public environments: HyperparametersItems[] = [{id: 0, data: ''}];
     public forms: HyperparametersItems[] = [{id: 0, data: ''}];
+    public scaffolds: HyperparametersItems[] = [{id: 0, data: ''}];
 
     public metadataFormGroup!: FormGroup;
     public fileContent: string | ArrayBuffer | null = '';
@@ -46,6 +47,7 @@ export class ArchetypeHomeComponent implements OnInit {
         this.setDatabasesEngineer();
         this.setEnvironments();
         this.setForms();
+        this.setScaffolds();
         this.createMetadataForm();
     }
 
@@ -75,6 +77,10 @@ export class ArchetypeHomeComponent implements OnInit {
 
     private async setForms(): Promise<void> {
         this.forms = await this.archetypeService.getDataItems(`${environment.basePath}${environment.endpoints.forms}`);
+    }
+
+    private async setScaffolds(): Promise<void> {
+        this.scaffolds = await this.archetypeService.getDataItems(`${environment.basePath}${environment.endpoints.scaffold}`);
     }
 
     public itemDescriptionFromList(itemId: number, itemData: string): string {
