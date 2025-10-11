@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ArchetypeService} from "../../core/services/archetype.service";
 import {Hyperparameters} from "../../shared/interface/hyperparameters";
+import {environment} from 'src/environments/environment';
 
 @Component({
     selector: 'archetype-title-app',
@@ -10,22 +11,16 @@ import {Hyperparameters} from "../../shared/interface/hyperparameters";
     styleUrls: ['./archetype-title-app.component.css']
 })
 export class ArchetypeTitleAppComponent implements OnInit {
-    private readonly _basePath: string = 'http://localhost:3000/api/v1';
-    private readonly _title: string = '/title';
     public readonly title: Hyperparameters = {data: ''};
 
     constructor(private archetypeService: ArchetypeService) {
     }
 
     ngOnInit(): void {
-        this.loadMetadata();
-    }
-
-    private loadMetadata(): void {
         this.setTitle();
     }
 
     private async setTitle(): Promise<void> {
-        this.title.data = await this.archetypeService.getData(`${this._basePath}${this._title}`);
+        this.title.data = await this.archetypeService.getData(`${environment.basePath}${environment.endpoints.title}`);
     }
 }

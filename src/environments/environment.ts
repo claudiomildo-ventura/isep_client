@@ -3,6 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+    basePath: 'http://localhost:3000/api/v1/',
+    btnCreate: 'Create',
+    endpoints: {
+        architectures: 'architectures',
+        databases: 'databases',
+        databasesEngineer: 'databases-engineer',
+        detail: 'detail',
+        environments: 'environments',
+        footer: 'footer',
+        forms: 'forms',
+        title: 'title'
+    },
     production: false,
     development: true
 };
