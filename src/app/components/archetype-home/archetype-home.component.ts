@@ -5,6 +5,7 @@ import {Hyperparameters} from "../../shared/interface/hyperparameters";
 import {HyperparametersItems} from "../../shared/interface/hyperparametersItems";
 import {ArchetypeService} from "../../core/services/archetype.service";
 import {CommonModule} from "@angular/common";
+import {environment} from 'src/environments/environment';
 
 @Component({
     selector: 'archetype-home',
@@ -15,13 +16,6 @@ import {CommonModule} from "@angular/common";
 })
 export class ArchetypeHomeComponent implements OnInit {
 
-    private readonly _basePath: string = 'http://localhost:3000/api/v1';
-    private readonly _detail: string = '/detail';
-    private readonly _databases: string = '/databases';
-    private readonly _architectures: string = '/architectures';
-    private readonly _databasesEngineer: string = '/databases-engineer';
-    private readonly _environments: string = '/environments';
-    private readonly _forms: string = '/forms';
     btnCreate: string = '';
     private DEFAULT_ITEM_ID: number = 0;
     private DEFAULT_ITEM_LABEL: string = 'Items';
@@ -45,8 +39,13 @@ export class ArchetypeHomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.btnCreate = 'Create';
-        this.loadMetadata();
+        this.btnCreate = environment.btnCreate;
+        this.setDescription();
+        this.setArchitectures();
+        this.setDatabases();
+        this.setDatabasesEngineer();
+        this.setEnvironments();
+        this.setForms();
         this.createMetadataForm();
     }
 
@@ -54,38 +53,28 @@ export class ArchetypeHomeComponent implements OnInit {
         this.changeDetector.detectChanges();
     }
 
-    private loadMetadata(): void {
-        this.setDescription();
-        this.setArchitectures();
-        this.setDatabases();
-        this.setDatabasesEngineer();
-        this.setEnvironments();
-        this.setForms();
-    }
-
-
     private async setDescription(): Promise<void> {
-        this.detail.data = await this.archetypeService.getData(`${this._basePath}${this._detail}`);
+        this.detail.data = await this.archetypeService.getData(`${environment.basePath}${environment.endpoints.detail}`);
     }
 
     private async setArchitectures(): Promise<void> {
-        this.architectures = await this.archetypeService.getDataItems(`${this._basePath}${this._architectures}`);
+        this.architectures = await this.archetypeService.getDataItems(`${environment.basePath}${environment.endpoints.architectures}`);
     }
 
     private async setDatabases(): Promise<void> {
-        this.databases = await this.archetypeService.getDataItems(`${this._basePath}${this._databases}`);
+        this.databases = await this.archetypeService.getDataItems(`${environment.basePath}${environment.endpoints.databases}`);
     }
 
     private async setDatabasesEngineer(): Promise<void> {
-        this.databasesEngineer = await this.archetypeService.getDataItems(`${this._basePath}${this._databasesEngineer}`);
+        this.databasesEngineer = await this.archetypeService.getDataItems(`${environment.basePath}${environment.endpoints.databasesEngineer}`);
     }
 
     private async setEnvironments(): Promise<void> {
-        this.environments = await this.archetypeService.getDataItems(`${this._basePath}${this._environments}`);
+        this.environments = await this.archetypeService.getDataItems(`${environment.basePath}${environment.endpoints.environments}`);
     }
 
     private async setForms(): Promise<void> {
-        this.forms = await this.archetypeService.getDataItems(`${this._basePath}${this._forms}`);
+        this.forms = await this.archetypeService.getDataItems(`${environment.basePath}${environment.endpoints.forms}`);
     }
 
     public itemDescriptionFromList(itemId: number, itemData: string): string {
