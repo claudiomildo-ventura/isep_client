@@ -13,7 +13,8 @@ export const environment = {
         environments: 'environments',
         footer: 'footer',
         forms: 'forms',
-        title: 'title'
+        title: 'title',
+        scaffold: 'scaffold'
     },
     production: false,
     development: true
