@@ -28,7 +28,7 @@
                     <div *ngIf="scaffolds.length > 0">
                         <select class="form-select form-control-sm" formControlName="archetypeScaffold">
                             <option *ngFor="let scaffold of scaffolds" [value]="scaffold.id">
-                                {{ this.setItemDescriptionDefault(scaffold.id, scaffold.data) }}
+                                {{ this.setItemDescriptionDefault(scaffold.id, scaffold.data) | titlecase }}
                             </option>
                         </select>
                     </div>
@@ -38,7 +38,7 @@
                     <div *ngIf="architectures.length > 0">
                         <select class="form-select form-control-sm" formControlName="archetypeArchitectures">
                             <option *ngFor="let architecture of architectures" [value]="architecture.id">
-                                {{ this.setItemDescriptionDefault(architecture.id, architecture.data) }}
+                                {{ this.setItemDescriptionDefault(architecture.id, architecture.data) | titlecase }}
                             </option>
                         </select>
                     </div>
@@ -48,7 +48,7 @@
                     <div *ngIf="databases.length > 0">
                         <select class="form-select form-control-sm" formControlName="archetypeDatabases">
                             <option *ngFor="let database of databases" [value]="database.id">
-                                {{ this.setItemDescriptionDefault(database.id, database.data) }}
+                                {{ this.setItemDescriptionDefault(database.id, database.data) | titlecase }}
                             </option>
                         </select>
                     </div>
@@ -58,7 +58,7 @@
                     <div *ngIf="databasesEngineer.length > 0">
                         <select class="form-select form-control-sm" formControlName="archetypeDatabasesEngineer">
                             <option *ngFor="let databaseEngineer of databasesEngineer" [value]="databaseEngineer.id">
-                                {{ this.setItemDescriptionDefault(databaseEngineer.id, databaseEngineer.data) }}
+                                {{ this.setItemDescriptionDefault(databaseEngineer.id, databaseEngineer.data) | titlecase }}
                             </option>
                         </select>
                     </div>
@@ -68,7 +68,7 @@
                     <div *ngIf="environments.length > 0">
                         <select class="form-select form-control-sm" formControlName="archetypeEnvironments">
                             <option *ngFor="let developmentEnvironment of environments" [value]="developmentEnvironment.id">
-                                {{ this.setItemDescriptionDefault(developmentEnvironment.id, developmentEnvironment.data) }}
+                                {{ this.setItemDescriptionDefault(developmentEnvironment.id, developmentEnvironment.data) | titlecase }}
                             </option>
                         </select>
                     </div>
@@ -78,7 +78,7 @@
                     <div *ngIf="forms.length > 0">
                         <select class="form-select form-control-sm" formControlName="archetypeForms">
                             <option *ngFor="let form of forms" [value]="form.id">
-                                {{ this.setItemDescriptionDefault(form.id, form.data) }}
+                                {{ this.setItemDescriptionDefault(form.id, form.data) | titlecase }}
                             </option>
                         </select>
                     </div>
