@@ -5,7 +5,6 @@ import {Hyperparameters} from "../../shared/interface/hyperparameters";
 import {ArchetypeService} from "../../core/services/archetype.service";
 import {CommonModule} from "@angular/common";
 import {environment} from 'src/environments/environment';
-import * as pino from 'pino';
 
 @Component({
     selector: 'archetype-home-app',
@@ -37,8 +36,6 @@ export class ArchetypeHomeAppComponent implements OnInit {
         this.btnCreate = environment.btnCreate;
         this.setDetail();
         this.archetypeFormCreate();
-        const logger = pino();
-        logger.info('test: ArchetypeHomeAppComponent initialized');
     }
 
     private async setDetail(): Promise<void> {

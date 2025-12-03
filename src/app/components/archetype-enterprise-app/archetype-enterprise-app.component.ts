@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Hyperparameters} from "../../shared/interface/hyperparameters";
 import {ArchetypeService} from "../../core/services/archetype.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'archetype-enterprise-app',
@@ -10,8 +11,6 @@ import {ArchetypeService} from "../../core/services/archetype.service";
   styleUrl: './archetype-enterprise-app.component.css'
 })
 export class ArchetypeEnterpriseAppComponent implements OnInit  {
-    private readonly _basePath: string = 'http://localhost:3000/api/v1/';
-    private readonly _enterprise: string = 'enterprise';
     public readonly enterprise: Hyperparameters = {data: ''};
 
     constructor(private archetypeService: ArchetypeService) {
@@ -22,10 +21,10 @@ export class ArchetypeEnterpriseAppComponent implements OnInit  {
     }
 
     private loadData(): void {
-        this.seEnterprise();
+        this.setEnterprise();
     }
 
-    private async seEnterprise(): Promise<void> {
-        this.enterprise.data = await this.archetypeService.getData(`${this._basePath}${this._enterprise}`);
+    private async setEnterprise(): Promise<void> {
+        this.enterprise.data = await this.archetypeService.getData(`${environment.basePath}${environment.endpoints.enterprise}`);
     }
 }

@@ -1,13 +1,13 @@
 {
-  "name": "UDP_front-end",
+  "name": "UDP_client",
   "version": "0.0.1",
-  "description": "Plataforma desenvolvida para o Personal Trainer.",
+  "description": "This API service is a modernization effort of a legacy application originally developed in Object Pascal (Delphi XE10).",
   "author": "Claudiomildo Ventura",
   "homepage": "",
   "license": "Apache License, Version 2.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config src/proxy.config.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -35,6 +35,7 @@
     "@angular/compiler-cli": "^17.3.12",
     "@types/jasmine": "~4.0.0",
     "@types/node": "^24.10.0",
+    "baseline-browser-mapping": "^2.9.0",
     "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
