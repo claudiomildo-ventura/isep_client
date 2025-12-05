@@ -1,19 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {ArchetypeService} from "../../core/services/archetype.service";
-import {Hyperparameters} from "../../shared/interface/hyperparameters";
+import {ArchetypeService} from "../../../core/services/archetype.service";
+import {Hyperparameters} from "../../../shared/interface/hyperparameters";
 import {environment} from 'src/environments/environment';
 import {UpperCasePipe} from "@angular/common";
 
 @Component({
-    selector: 'archetype-title-app',
+    selector: 'page-title',
     standalone: true,
-    imports: [
-        UpperCasePipe
-    ],
-    templateUrl: './archetype-title-app.component.html',
-    styleUrls: ['./archetype-title-app.component.css']
+    imports: [UpperCasePipe],
+    templateUrl: './page-title.component.html',
+    styleUrls: ['./page-title.component.css']
 })
-export class ArchetypeTitleAppComponent implements OnInit {
+export class PageTitleComponent implements OnInit {
     public readonly title: Hyperparameters = {data: ''};
 
     constructor(private archetypeService: ArchetypeService) {

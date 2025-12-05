@@ -14,7 +14,7 @@
             <div class="col-12">
                 <div class="input-group mt-2">
                     <input type="file" class="form-control" (change)="this.onFileSelected($event)"/>
-                    <button type="submit" class="btn btn-primary">
+                    <button #btnCreateStructure type="submit" class="btn btn-primary">
                         {{ btnCreate }}
                     </button>
                 </div>

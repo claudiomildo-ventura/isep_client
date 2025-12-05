@@ -14,5 +14,6 @@ export const environment = {
         scaffold: 'scaffold'
     },
     production: false,
-    development: true
+    development: true,
+    quality_assurance: false
 };

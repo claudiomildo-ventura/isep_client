@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {Hyperparameters} from "../../shared/interface/hyperparameters";
-import {ArchetypeService} from "../../core/services/archetype.service";
-import {environment} from "../../../environments/environment";
+import {Hyperparameters} from "../../../shared/interface/hyperparameters";
+import {ArchetypeService} from "../../../core/services/archetype.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
-  selector: 'archetype-enterprise-app',
+  selector: 'page-enterprise',
   standalone: true,
   imports: [],
-  templateUrl: './archetype-enterprise-app.component.html',
-  styleUrl: './archetype-enterprise-app.component.css'
+  templateUrl: './page-enterprise.component.html',
+  styleUrl: './page-enterprise.component.css'
 })
-export class ArchetypeEnterpriseAppComponent implements OnInit  {
+export class PageEnterpriseComponent implements OnInit  {
     public readonly enterprise: Hyperparameters = {data: ''};
 
     constructor(private archetypeService: ArchetypeService) {

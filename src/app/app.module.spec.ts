@@ -1,29 +1,23 @@
 import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { AppModule } from './app.module';
 
-describe('AppComponent', () => {
+describe('AppModule', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppModule
       ],
     }).compileComponents();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+    const fixture = TestBed.createComponent(AppModule);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular-ecommerce'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-ecommerce');
-  });
-
-  it('should render archetype-title-app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  it('should render page-title', () => {
+    const fixture = TestBed.createComponent(AppModule);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.content span')?.textContent).toContain('angular-ecommerce app is running!');
