@@ -4,7 +4,7 @@ import {MetadataValidation} from 'src/app/shared/validator/metadatavalidation';
 import {Hyperparameters} from "../../../shared/interface/hyperparameters";
 import {ArchetypeService} from "../../../core/services/archetype.service";
 import {CommonModule} from "@angular/common";
-import {environment} from 'src/environments/environment';
+import {ENVIRONMENT} from 'src/environments/environment';
 import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PageTitleComponent} from "../page-title/page-title.component";
 import {PageEndComponent} from "../page-end/page-end.component";
@@ -36,7 +36,7 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        this.btnCreate = environment.btnCreate;
+        this.btnCreate = ENVIRONMENT.btnCreate;
         this.setDetail();
         this.archetypeFormCreate();
     }
@@ -46,7 +46,7 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
     }
 
     private async setDetail(): Promise<void> {
-        this.detail.data = await this.archetypeService.getData(`${environment.basePath}${environment.endpoints.detail}`);
+        this.detail.data = await this.archetypeService.getData(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.detail}`);
     }
 
     public archetypeFormCreate(): void {

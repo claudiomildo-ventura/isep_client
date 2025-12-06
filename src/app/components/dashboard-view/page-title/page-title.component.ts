@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ArchetypeService} from "../../../core/services/archetype.service";
 import {Hyperparameters} from "../../../shared/interface/hyperparameters";
-import {environment} from 'src/environments/environment';
+import {ENVIRONMENT} from 'src/environments/environment';
 import {UpperCasePipe} from "@angular/common";
 
 @Component({
@@ -22,6 +22,6 @@ export class PageTitleComponent implements OnInit {
     }
 
     private async setTitle(): Promise<void> {
-        this.title.data = await this.archetypeService.getData(`${environment.basePath}${environment.endpoints.title}`);
+        this.title.data = await this.archetypeService.getData(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.title}`);
     }
 }

@@ -8,7 +8,7 @@ export const ROUTES: Routes = [
     },
 
     {
-        title: 'Home',
+        title: 'udp - home page',
         path: 'page-home',
         loadComponent: () => import('./components/dashboard-view/page-home/page-home.component')
             .then(view => view.PageHomeComponent)

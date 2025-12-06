@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Hyperparameters} from "../../../shared/interface/hyperparameters";
 import {ArchetypeService} from "../../../core/services/archetype.service";
 import {PageEnterpriseComponent} from "../page-enterprise/page-enterprise.component";
-import {environment} from 'src/environments/environment';
+import {ENVIRONMENT} from 'src/environments/environment';
 
 @Component({
     selector: 'page-end',
@@ -22,6 +22,6 @@ export class PageEndComponent implements OnInit {
     }
 
     private async setFooter(): Promise<void> {
-        this.footer.data = await this.archetypeService.getData(`${environment.basePath}${environment.endpoints.footer}`);
+        this.footer.data = await this.archetypeService.getData(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.footer}`);
     }
 }

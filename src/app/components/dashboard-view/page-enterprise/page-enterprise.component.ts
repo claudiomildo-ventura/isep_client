@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Hyperparameters} from "../../../shared/interface/hyperparameters";
 import {ArchetypeService} from "../../../core/services/archetype.service";
-import {environment} from "../../../../environments/environment";
+import {ENVIRONMENT} from "../../../../environments/environment";
 
 @Component({
   selector: 'page-enterprise',
@@ -25,6 +25,6 @@ export class PageEnterpriseComponent implements OnInit  {
     }
 
     private async setEnterprise(): Promise<void> {
-        this.enterprise.data = await this.archetypeService.getData(`${environment.basePath}${environment.endpoints.enterprise}`);
+        this.enterprise.data = await this.archetypeService.getData(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.enterprise}`);
     }
 }

@@ -1,4 +1,4 @@
-export const environment = {
+export const ENVIRONMENT = {
     basePath: '/orchestrator/v1/',
     btnCreate: 'Create',
     endpoints: {
