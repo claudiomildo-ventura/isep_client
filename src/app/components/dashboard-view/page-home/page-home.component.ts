@@ -5,7 +5,8 @@ import {Hyperparameters} from "../../../shared/interface/hyperparameters";
 import {ArchetypeService} from "../../../core/services/archetype.service";
 import {CommonModule} from "@angular/common";
 import {ENVIRONMENT} from 'src/environments/environment';
-import {ActivatedRoute, Router} from "@angular/router";
+import {STRING_FUNC} from 'src/app/core/string-utils/StringFunc';
+import {Router} from "@angular/router";
 import {PageTitleComponent} from "../page-title/page-title.component";
 import {PageEndComponent} from "../page-end/page-end.component";
 
@@ -18,59 +19,44 @@ import {PageEndComponent} from "../page-end/page-end.component";
 })
 export class PageHomeComponent implements OnInit, AfterViewInit {
 
+    @ViewChild('btnConfirm') btnConfirm!: ElementRef<HTMLButtonElement>;
+    @ViewChild('txtDetail') txtDetail!: ElementRef<HTMLTextAreaElement>;
+    @ViewChild('txtFile') txtFile!: ElementRef<HTMLInputElement>;
+
     private readonly router = inject(Router);
-    private readonly route = inject(ActivatedRoute);
     private readonly formBuilder = inject(FormBuilder);
     private readonly archetypeService = inject(ArchetypeService);
+    private readonly createBtnTitle: string = 'Create the Structure';
 
-    public btnCreate: string = '';
-    public detailIsDefault: boolean = true;
     public detail: Hyperparameters = {data: ''};
-    public archetypeFrm!: FormGroup;
-    public fileContent: string | ArrayBuffer | null = '';
+    public frmHomePage!: FormGroup;
     public startValidation: boolean = false;
 
-    @ViewChild('btnCreateStructure') btnCreateStructure!: ElementRef<HTMLButtonElement>;
-
     ngOnInit(): void {
-        this.btnCreate = ENVIRONMENT.btnCreate;
-        this.setDetail();
-        this.archetypeFormCreate();
+        this.frmHomePageInitialize();
     }
 
-    ngAfterViewInit() {
-        this.btnCreateStructure.nativeElement.focus();
+    ngAfterViewInit(): void {
+        this.txtDetailInitialize();
+        this.btnConfirmInitialize();
     }
 
-    private async setDetail(): Promise<void> {
-        this.detail.data = await this.archetypeService.getData(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.detail}`);
+    public get getDetail(): FormControl<string> {
+        return this.frmHomePage.get('group1.detail') as FormControl<string>;
     }
 
-    public archetypeFormCreate(): void {
-        this.archetypeFrm = this.formBuilder.group({
-            archetypeFrmGroupOne: this.formBuilder.group({
-                archetypeDetail: new FormControl('', [Validators.required, Validators.minLength(2), MetadataValidation.notOnlyWhitespace, MetadataValidation.textContainsInicialValue]),
-            }),
-        });
-    }
+    public submit(): void {
 
-    get getArchetypeDetail() {
-        return this.archetypeFrm.get('archetypeFrmGroupOne.archetypeDetail');
-    }
-
-    public archetypeSubmit(): void {
-        console.log("It's here");
-
-        this.router.navigate(['/page-structure']).then(success => {
-            console.log('Navigation result:', success);
-        });
-        /*if (this.archetypeFrm.invalid) {
+        if (this.frmHomePage.invalid) {
             this.startValidation = true;
-            this.archetypeFrm.markAllAsTouched();
+            this.frmHomePage.markAllAsTouched();
         } else {
-            const groupValue = this.archetypeFrm.get('archetypeFrmGroupOne')?.value;
-            console.log(groupValue);
-        }*/
+            const groupValue = this.frmHomePage.get('group1')?.value;
+
+            this.router.navigate(['/page-structure']).then(success => {
+                console.log('Navigation result:', success);
+            });
+        }
     }
 
     public onFileSelected(event: Event): void {
@@ -80,20 +66,51 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
         if (!file) return;
 
         const reader = new FileReader();
-        reader.onload = () => {
-            const content = reader.result as string;
-            this.fileContent = content;
-            this.detailIsDefault = false;
 
-            this.archetypeFrm.patchValue({archetypeFrmGroupOne: {archetypeDetail: content}});
-            this.archetypeFrm.get('archetypeFrmGroupOne.archetypeDetail')?.updateValueAndValidity();
+        reader.onload = () => {
+            const text = reader.result as string;
+            this.txtDetailGetFormContent(text);
         };
 
         reader.readAsText(file);
-        this.btnCreateStructure.nativeElement.focus();
     }
 
-    private encodeBase64(text: string): string {
-        return window.btoa(new TextEncoder().encode(text).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+
+    private async setDetail(): Promise<void> {
+        const url = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.detail}`;
+        this.detail.data = await this.archetypeService.getData(url);
+    }
+
+    private frmHomePageInitialize(): void {
+        this.frmHomePage = this.formBuilder.group({
+            group1: this.formBuilder.group({
+                detail: new FormControl(STRING_FUNC.StringEmpty,
+                    [
+                        Validators.required,
+                        Validators.minLength(2),
+                        MetadataValidation.notOnlyWhitespace,
+                        MetadataValidation.textContainsInicialValue
+                    ]),
+            }),
+        });
+    }
+
+    private txtDetailInitialize(): void {
+        this.txtDetail.nativeElement.focus();
+        this.setDetail();
+    }
+
+    private btnConfirmInitialize(): void {
+        this.btnConfirm.nativeElement.title = this.createBtnTitle;
+        this.btnConfirm.nativeElement.style.width = '70px';
+        this.btnConfirm.nativeElement.disabled = true;
+    }
+
+    private txtDetailGetFormContent(content: string): void {
+        const detail = this.frmHomePage.get(['group1', 'detail']) as FormControl<string>;
+        detail.setValue(content, {emitEvent: true});
+        detail.updateValueAndValidity({onlySelf: true});
+        this.btnConfirm.nativeElement.disabled = false;
+        this.btnConfirm.nativeElement.focus();
     }
 }
