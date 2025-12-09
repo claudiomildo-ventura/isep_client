@@ -23,7 +23,7 @@ export class PageHomeValidation {
      */
     public static textContainsValue(control: FormControl): ValidationErrors {
         if (control.value?.trim().length === 0) {
-            return {'notOnlyWhiteSpace': true};
+            return {'textContainsValue': true};
         } else {
             return {};
         }
@@ -41,7 +41,7 @@ export class PageHomeValidation {
      */
     public static textContainsDefaultValue(control: FormControl): ValidationErrors {
         if (control.value?.includes('This program generates')) {
-            return {'textContainsInicialValue': true};
+            return {'textContainsDefaultValue': true};
         } else {
             return {};
         }
@@ -62,7 +62,7 @@ export class PageHomeValidation {
         if (control.value?.toLowerCase().includes('create table')) {
             return {};
         } else {
-            return {'textContainsInicialValue': true};
+            return {'textContainsCreateTableValue': true};
         }
     }
 }

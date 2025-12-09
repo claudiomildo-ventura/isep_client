@@ -3,41 +3,29 @@
 <div class="container">
     <form [formGroup]="frmHomePage" (ngSubmit)="submit()">
         <div formGroupName="group1">
+
             <div class="row col-12 input-group mt-3">
                 <div class="input-group-text">
-                    <textarea #txtDetail formControlName="detail" class="form-control" [value]="this.detail.data" rows="20"></textarea>
+                    <textarea #txtDetail formControlName="detail" class="form-control" [value]="detail.data" rows="20"></textarea>
                 </div>
             </div>
 
             <div class="row col-12 input-group mt-2">
-                <input #txtFile type="file" class="form-control" (change)="this.onFileSelected($event)"/>
+                <input #txtFile type="file" class="form-control" (change)="onFileSelected($event)"/>
 
                 <button #btnConfirm type="submit" class="btn btn-outline-secondary">
                     <span class="icon font">✔️</span>
                 </button>
             </div>
 
-            <div *ngIf="startValidation">
-                <div class="row col-12 input-group mt-2" *ngIf="getDetail?.invalid && (getDetail?.dirty || getDetail?.touched)">
+            <div *ngIf="startValidation && errorMessage as message">
+                <div class="row col-12 input-group mt-2">
                     <div class="alert alert-warning" role="alert">
-                        <div *ngIf="getDetail?.errors?.['minlength']">
-                            <span>{{ this.errorList[0] }}wwwwwwwwwwwwwwwwwwwww</span>
-                        </div>
-
-                        <div *ngIf="getDetail?.errors?.['required'] || getDetail?.errors?.['textContainsValue']">
-                            <span>{{ this.errorList[1] }}rrrrrrrrrrrrrrrr</span>
-                        </div>
-
-                        <div *ngIf="getDetail?.errors?.['textContainsDefaultValue']">
-                            <span>{{ this.errorList[2] }}cccccccccccccccccccccccccc</span>
-                        </div>
-
-                        <div *ngIf="getDetail?.errors?.['textContainsCreateTableValue']">
-                            <span>{{ this.errorList[2] }}dddddddddddddddddd</span>
-                        </div>
+                        <span>{{ message }}</span>
                     </div>
                 </div>
             </div>
+
 
         </div>
     </form>

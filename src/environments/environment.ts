@@ -10,7 +10,8 @@ export const ENVIRONMENT = {
         forms: 'forms',
         title: 'title',
         enterprise: 'enterprise',
-        scaffold: 'scaffold'
+        scaffold: 'scaffold',
+        structure: 'generate-structure'
     },
     production: false,
     development: true,

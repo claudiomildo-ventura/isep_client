@@ -1,5 +1,5 @@
 import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
-import {Hyperparameters} from "../../../shared/interface/hyperparameters";
+import {ApiResponse} from "../../../shared/interface/ApiResponse";
 import {ArchetypeService} from "../../../core/services/archetype.service";
 import {ENVIRONMENT} from "../../../../environments/environment";
 
@@ -14,7 +14,7 @@ export class PageEnterpriseComponent implements OnInit {
 
     @ViewChild('txtEnterprise') txtEnterprise!: ElementRef<HTMLParagraphElement>;
 
-    public readonly enterprise: Hyperparameters = {data: ''};
+    public readonly enterprise: ApiResponse<any> = {data: ''};
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
 
     ngOnInit(): void {
