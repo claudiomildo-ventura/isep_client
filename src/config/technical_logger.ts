@@ -1,4 +1,5 @@
-import pino from 'pino';
+import pino, {Logger} from 'pino';
+
 /**
  * Technical Logger Configuration
  *
@@ -8,7 +9,7 @@ import pino from 'pino';
  * - In development: uses `pino-pretty` transport for human-readable, colorized logs with timestamps.
  */
 
-export const TECHNICAL_LOGGER = pino({
+export const TECHNICAL_LOGGER: Logger<never, boolean> = pino({
     level: 'info',
     transport: process.env["NODE_ENV"] === 'production'
         ? undefined

@@ -1,6 +1,6 @@
 import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {ArchetypeService} from "../../../core/services/archetype.service";
-import {Hyperparameters} from "../../../shared/interface/hyperparameters";
+import {ApiResponse} from "../../../shared/interface/ApiResponse";
 import {ENVIRONMENT} from 'src/environments/environment';
 import {UpperCasePipe} from "@angular/common";
 
@@ -15,7 +15,7 @@ export class PageTitleComponent implements OnInit {
 
     @ViewChild('txtTitle') txtTitle!: ElementRef<HTMLSpanElement>;
 
-    public readonly title: Hyperparameters = {data: ''};
+    public readonly title: ApiResponse<any> = {data: ''};
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
 
     ngOnInit(): void {

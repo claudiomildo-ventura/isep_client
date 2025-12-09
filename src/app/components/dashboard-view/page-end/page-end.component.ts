@@ -1,5 +1,5 @@
 import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
-import {Hyperparameters} from "../../../shared/interface/hyperparameters";
+import {ApiResponse} from "../../../shared/interface/ApiResponse";
 import {ArchetypeService} from "../../../core/services/archetype.service";
 import {PageEnterpriseComponent} from "../page-enterprise/page-enterprise.component";
 import {ENVIRONMENT} from 'src/environments/environment';
@@ -15,7 +15,7 @@ export class PageEndComponent implements OnInit {
 
     @ViewChild('txtFooter') txtFooter!: ElementRef<HTMLParagraphElement>;
 
-    public readonly footer: Hyperparameters = {data: ''};
+    public readonly footer: ApiResponse<any> = {data: ''};
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
 
     ngOnInit(): void {

@@ -1,15 +1,16 @@
 import {AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
 import {PageHomeValidation} from 'src/app/shared/validator/PageHomeValidation';
-import {Hyperparameters} from "../../../shared/interface/hyperparameters";
+import {ApiResponse} from "../../../shared/interface/ApiResponse";
 import {ArchetypeService} from "../../../core/services/archetype.service";
 import {CommonModule} from "@angular/common";
 import {ENVIRONMENT} from 'src/environments/environment';
-import {STRING_FUNC} from 'src/app/core/string-utils/StringFunc';
+import {StringFunc} from 'src/app/shared/string-utils/StringFunc';
 import {Router} from "@angular/router";
 import {PageTitleComponent} from "../page-title/page-title.component";
 import {PageEndComponent} from "../page-end/page-end.component";
 import {NUMBER_CONSTANT} from "../../../shared/NumberConstant";
+import {TECHNICAL_LOGGER} from "../../../../config/technical_logger";
 
 @Component({
     selector: 'page-home',
@@ -28,7 +29,7 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
     private readonly formBuilder: FormBuilder = inject(FormBuilder);
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
 
-    public detail: Hyperparameters = {data: ''};
+    public detail: ApiResponse<any> = {data: ''};
     public frmHomePage!: FormGroup;
     public startValidation: boolean = false;
 
@@ -44,20 +45,13 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
         this.errorListInitialize();
     }
 
-    public get getDetail(): FormControl<string> {
-        return this.frmHomePage.get('group1.detail') as FormControl<string>;
-    }
-
     public submit(): void {
+        if (this.frmHomePageValidate(this.frmHomePage)) {
+            const group1Values: any = this.frmHomePage.get('group1')?.value ?? null;
+            const result = StringFunc.encodeBase64(group1Values.detail);
 
-        if (this.frmHomePage.invalid) {
-            this.startValidation = true;
-            this.frmHomePage.markAllAsTouched();
-        } else {
-            const groupValue: any = this.frmHomePage.get('group1')?.value;
-
-            this.router.navigate(['/page-structure']).then(success => {
-                console.log('Navigation result:', success);
+            this.router.navigate(['/page-structure'], { state: {detailContent: result}}).then((success: boolean): void => {
+                TECHNICAL_LOGGER.info(`Navigation result: ${success}`);
             });
         }
     }
@@ -78,6 +72,22 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
         reader.readAsText(file);
     }
 
+    public get getDetail(): FormControl<string> {
+        return this.frmHomePage.get('group1.detail') as FormControl<string>;
+    }
+
+    public get errorMessage(): string | null {
+        const error: ValidationErrors | null = this.getDetail?.errors;
+
+        if (!error) return null;
+
+        if (error['minlength']) return this.errorList[0];
+        if (error['required'] || error['textContainsValue']) return this.errorList[1];
+        if (error['textContainsDefaultValue'] || error['textContainsCreateTableValue']) return this.errorList[2];
+
+        return null;
+    }
+
     private async setDetail(): Promise<void> {
         const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.detail}`;
         this.detail.data = await this.archetypeService.getData(url);
@@ -86,7 +96,7 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
     private frmHomePageInitialize(): void {
         this.frmHomePage = this.formBuilder.group({
             group1: this.formBuilder.group({
-                detail: new FormControl(STRING_FUNC.STRING_EMPTY,
+                detail: new FormControl(StringFunc.STRING_EMPTY,
                     [
                         Validators.required,
                         Validators.minLength(NUMBER_CONSTANT.INITIALIZE_WITH_2),
@@ -96,6 +106,16 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
                     ]),
             }),
         });
+    }
+
+    private frmHomePageValidate(form: FormGroup<any>): boolean {
+        if (form.invalid) {
+            this.startValidation = true;
+            form.markAllAsTouched();
+            return false;
+        }
+
+        return true;
     }
 
     private txtDetailInitialize(): void {
@@ -113,8 +133,8 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
     private errorListInitialize(): void {
         this.errorList = Array.of(
             'The detail content must be at least 2 characters long.',
-            'The detail content is empty.',
-            'The detail content is invalid.'
+            'The detail content is empty for generate the structure.',
+            'The detail content is invalid for generate the structure.'
         );
     }
 

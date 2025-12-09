@@ -1,30 +1,27 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
+import {HttpClient, HttpContext} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {API_VERSION, CONTENT_LANGUAGE, USE_AUTH} from "../interceptor/http-context.tokens";
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable({providedIn: 'root'})
 export class HttpclientService {
-    httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer 5et4451h578iukhjg6'
-        })
-    };
 
-    constructor(private readonly http: HttpClient) {
+    private readonly http: HttpClient = inject(HttpClient);
+
+    public getData$<R>(url: string, options?: { context?: HttpContext }): Observable<R> {
+        return this.http.get<R>(url, {
+            context: options?.context ?? new HttpContext()
+                .set(USE_AUTH, true)
+                .set(API_VERSION, "v1")
+        });
     }
 
-    public getData$(url: string): Observable<any> {
-        return this.http.get<any>(url, this.httpOptions);
-    }
-
-    public sendData$(url: string, data: any): Observable<any> {
-        return this.http.post<Array<any>>(url, data, this.httpOptions);
-    }
-
-    public getDataItems$(url: string): Observable<Array<any>> {
-        return this.http.get<Array<any>>(url, this.httpOptions);
+    public postData$<R>(url: string, body: unknown, options?: { context?: HttpContext }): Observable<R> {
+        return this.http.post<R>(url, body, {
+            context: options?.context ?? new HttpContext()
+                .set(USE_AUTH, true)
+                .set(API_VERSION, "v1")
+                .set(CONTENT_LANGUAGE, "en")
+        });
     }
 }

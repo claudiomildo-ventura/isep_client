@@ -10,12 +10,13 @@
 
 import {AppComponent} from './app/app.component';
 import {bootstrapApplication} from '@angular/platform-browser';
-import {provideHttpClient} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {PreloadAllModules, provideRouter, Route, withInMemoryScrolling, withPreloading} from "@angular/router";
 import {ENVIRONMENT} from './environments/environment';
 import {ROUTES} from "./app/app.route";
 import {ERROR_ROUTES} from "./app/core/error/error.route";
 import {TECHNICAL_LOGGER} from "./config/technical_logger";
+import {Interceptor} from "./app/core/interceptor/interceptor";
 
 export const ALL_ROUTES: Route[] = [...ROUTES, ...ERROR_ROUTES];
 
@@ -26,15 +27,18 @@ if (ENVIRONMENT.production) {
 }
 
 bootstrapApplication(AppComponent, {
-    providers: [
-        provideHttpClient(),
-        provideRouter(
-            ALL_ROUTES,
+    providers: [{
+        provide: HTTP_INTERCEPTORS,
+        useClass: Interceptor,
+        multi: true
+    },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideRouter(ALL_ROUTES,
             withPreloading(PreloadAllModules),
             withInMemoryScrolling({
                 scrollPositionRestoration: 'enabled',
                 anchorScrolling: 'enabled'
             })
-        )
+        ),
     ]
 });
