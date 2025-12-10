@@ -23,7 +23,7 @@ export class PageEnterpriseComponent implements OnInit {
 
     private async setEnterprise(): Promise<void> {
         const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.enterprise}`;
-        this.enterprise.data = await this.archetypeService.getData(url);
+        this.enterprise.data = await this.archetypeService.getMapping(url);
     }
 
     private txtEnterpriseInitialize(): void {

@@ -12,22 +12,30 @@ import {ApiResponse} from "../../../shared/interface/ApiResponse";
     styleUrl: './archetype-structure-app.component.css'
 })
 export class PageStructureComponent implements OnInit, AfterViewInit {
+    ngAfterViewInit(): void {
+        throw new Error("Method not implemented.");
+    }
+
+    ngOnInit(): void {
+        throw new Error("Method not implemented.");
+    }
 
     public readonly obj: ApiResponse<any> = {data: ''};
     private readonly router: Router = inject(Router);
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
 
-    ngOnInit(): void {
+    /*ngOnInit(): void {
         const nav = this.router.getCurrentNavigation();
         this.obj.data = nav?.extras.state?.['detailContent'] ?? history.state?.detailContent;
     }
 
     ngAfterViewInit(): void {
         this.sendData()
-    }
+    }*/
 
     private async sendData(): Promise<void> {
         const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.structure}`;
-        await this.archetypeService.postData(url, this.obj.data);
+        const aux = {data: this.obj.data};
+        await this.archetypeService.postMapping(url, aux);
     }
 }

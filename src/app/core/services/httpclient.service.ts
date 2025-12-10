@@ -8,7 +8,7 @@ export class HttpclientService {
 
     private readonly http: HttpClient = inject(HttpClient);
 
-    public getData$<R>(url: string, options?: { context?: HttpContext }): Observable<R> {
+    public getMapping$<R>(url: string, options?: { context?: HttpContext }): Observable<R> {
         return this.http.get<R>(url, {
             context: options?.context ?? new HttpContext()
                 .set(USE_AUTH, true)
@@ -16,12 +16,12 @@ export class HttpclientService {
         });
     }
 
-    public postData$<R>(url: string, body: unknown, options?: { context?: HttpContext }): Observable<R> {
+    public postMapping$<R>(url: string, body: unknown, options?: { context?: HttpContext }): Observable<R> {
         return this.http.post<R>(url, body, {
             context: options?.context ?? new HttpContext()
                 .set(USE_AUTH, true)
-                .set(API_VERSION, "v1")
-                .set(CONTENT_LANGUAGE, "en")
+                //.set(API_VERSION, "v1")
+                //.set(CONTENT_LANGUAGE, "en")
         });
     }
 }

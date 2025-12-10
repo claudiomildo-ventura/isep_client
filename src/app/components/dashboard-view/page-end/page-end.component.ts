@@ -24,7 +24,7 @@ export class PageEndComponent implements OnInit {
 
     private async setFooter(): Promise<void> {
         const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.footer}`;
-        this.footer.data = await this.archetypeService.getData(url);
+        this.footer.data = await this.archetypeService.getMapping(url);
     }
 
     private txtEnterpriseInitialize(): void {
