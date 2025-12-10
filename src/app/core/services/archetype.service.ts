@@ -7,13 +7,14 @@ import {HttpContext} from "@angular/common/http";
 
 @Injectable({providedIn: 'root'})
 export class ArchetypeService {
+
     private readonly timeOut: number = 15000;
     private readonly httpclientService: HttpclientService = inject(HttpclientService);
 
-    public async getData<T>(url: string): Promise<T> {
+    public async getMapping<T>(url: string): Promise<T> {
         try {
             const response: ApiResponse<T> = await firstValueFrom(
-                this.httpclientService.getData$<ApiResponse<T>>(url).pipe(
+                this.httpclientService.getMapping$<ApiResponse<T>>(url).pipe(
                     timeout(this.timeOut),
                     catchError(ex => {
                         return throwError(() => new Error(`getData failed: ${ex?.message ?? ex}`));
@@ -26,10 +27,10 @@ export class ArchetypeService {
         }
     }
 
-    public async postData<T>(url: string, body: unknown, options?: { context?: HttpContext }): Promise<T> {
+    public async postMapping<T>(url: string, body: unknown, options?: { context?: HttpContext }): Promise<T> {
         try {
             const response: ApiResponse<T> = await firstValueFrom(
-                this.httpclientService.postData$<ApiResponse<T>>(url, body, options).pipe(
+                this.httpclientService.postMapping$<ApiResponse<T>>(url, body, options).pipe(
                     timeout(this.timeOut),
                     catchError(ex => {
                         return throwError(() => new Error(`postData failed: ${ex?.message ?? ex}`));

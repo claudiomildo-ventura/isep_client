@@ -24,7 +24,7 @@ export class PageTitleComponent implements OnInit {
 
     private async setTitle(): Promise<void> {
         const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.title}`;
-        this.title.data = await this.archetypeService.getData(url);
+        this.title.data = await this.archetypeService.getMapping(url);
     }
 
     private txtTitleInitialize(): void {

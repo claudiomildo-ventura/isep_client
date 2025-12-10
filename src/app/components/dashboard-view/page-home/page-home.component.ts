@@ -45,15 +45,31 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
         this.errorListInitialize();
     }
 
+    onEnter(event: KeyboardEvent): void {
+        TECHNICAL_LOGGER.info("It's here")
+
+        /*if (event.key === 'Enter') {
+            event.preventDefault();
+            this.submit();
+        }*/
+    }
+
     public submit(): void {
         if (this.frmHomePageValidate(this.frmHomePage)) {
             const group1Values: any = this.frmHomePage.get('group1')?.value ?? null;
             const result = StringFunc.encodeBase64(group1Values.detail);
-
-            this.router.navigate(['/page-structure'], { state: {detailContent: result}}).then((success: boolean): void => {
+            this.sendData(result);
+            /*this.router.navigate(['/page-structure'], { state: {detailContent: result}}).then((success: boolean): void => {
                 TECHNICAL_LOGGER.info(`Navigation result: ${success}`);
-            });
+            });*/
         }
+    }
+
+    private async sendData(auxs: string): Promise<void> {
+        const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.structure}`;
+        const aux = {data: auxs};
+TECHNICAL_LOGGER.info(aux);
+        await this.archetypeService.postMapping(url, aux);
     }
 
     public onFileSelected(event: Event): void {
@@ -90,7 +106,7 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
 
     private async setDetail(): Promise<void> {
         const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.detail}`;
-        this.detail.data = await this.archetypeService.getData(url);
+        this.detail.data = await this.archetypeService.getMapping(url);
     }
 
     private frmHomePageInitialize(): void {
