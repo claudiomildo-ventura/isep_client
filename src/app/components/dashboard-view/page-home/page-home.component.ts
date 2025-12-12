@@ -9,6 +9,7 @@ import {StringFunc} from 'src/app/shared/string-utils/StringFunc';
 import {PageTitleComponent} from "../page-title/page-title.component";
 import {PageEndComponent} from "../page-end/page-end.component";
 import {NUMBER_CONSTANT} from "../../../shared/NumberConstant";
+import {TableResponse} from "../../../shared/interface/TablesResponse";
 
 @Component({
     selector: 'page-home',
@@ -45,7 +46,9 @@ export class PageHomeComponent implements OnInit, AfterViewInit {
     private async sendData(auxs: string): Promise<void> {
         const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.structure}`;
         const aux = {data: auxs};
-        await this.archetypeService.postMapping(url, aux);
+        const tableResponse: TableResponse = await this.archetypeService.postMapping<TableResponse>(url, aux);
+        console.log(tableResponse.tables[0].fields);      // all fields
+        console.log(tableResponse.tables[0].fields.filter(f => f.isKey)); // ONLY PK fields
     }
 
     public submit(): void {

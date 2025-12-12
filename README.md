@@ -7,6 +7,8 @@
     UDP - Unified Development Platform
   </h1>
 
+<hr />
+
   <h2 id="project-overview">
     <a class="anchor" aria-hidden="true" tabindex="-1" href="#project-overview">
       🔗

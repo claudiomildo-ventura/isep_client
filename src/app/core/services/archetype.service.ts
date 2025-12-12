@@ -24,11 +24,11 @@ export class ArchetypeService {
         }
     }
 
-    public async postMapping<T>(url: string, payload: unknown, options?: { context?: HttpContext }): Promise<T> {
+    public async postMapping<TableResponse>(url: string, payload: unknown, options?: { context?: HttpContext }): Promise<TableResponse> {
         try {
-            const response: ApiResponse<T> = await firstValueFrom(this.httpclientService.postMapping$<ApiResponse<T>>(url, payload, options)
+            const response: TableResponse = await firstValueFrom(this.httpclientService.postMapping$<TableResponse>(url, payload, options)
                 .pipe(timeout(this.timeOut), catchError(ex => throwError((): any => ex))));
-            return response.data;
+            return response;
 
         } catch (ex: any) {
             if (ex?.status === 500) {
