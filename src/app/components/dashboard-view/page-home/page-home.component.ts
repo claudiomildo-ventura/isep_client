@@ -6,7 +6,6 @@ import {ArchetypeService} from "../../../core/services/archetype.service";
 import {CommonModule} from "@angular/common";
 import {ENVIRONMENT} from 'src/environments/environment';
 import {StringFunc} from 'src/app/shared/string-utils/StringFunc';
-import {Router} from "@angular/router";
 import {PageTitleComponent} from "../page-title/page-title.component";
 import {PageEndComponent} from "../page-end/page-end.component";
 import {NUMBER_CONSTANT} from "../../../shared/NumberConstant";
@@ -19,12 +18,11 @@ import {NUMBER_CONSTANT} from "../../../shared/NumberConstant";
     styleUrls: ['./page-home.component.css'],
 })
 export class PageHomeComponent implements OnInit, AfterViewInit {
-
+    result: any;
     @ViewChild('btnConfirm') btnConfirm!: ElementRef<HTMLButtonElement>;
     @ViewChild('txtDetail') txtDetail!: ElementRef<HTMLTextAreaElement>;
     @ViewChild('txtFile') txtFile!: ElementRef<HTMLInputElement>;
 
-    private readonly router: Router = inject(Router);
     private readonly formBuilder: FormBuilder = inject(FormBuilder);
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
 

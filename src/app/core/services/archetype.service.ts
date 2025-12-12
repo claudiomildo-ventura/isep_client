@@ -4,22 +4,19 @@ import {catchError, timeout} from "rxjs/operators";
 import {firstValueFrom, throwError} from "rxjs";
 import {ApiResponse} from "../../shared/interface/ApiResponse";
 import {HttpContext} from "@angular/common/http";
+import {DialogService} from "./dialog.service";
 
 @Injectable({providedIn: 'root'})
 export class ArchetypeService {
 
     private readonly timeOut: number = 15000;
+    private readonly dialogService: DialogService = inject(DialogService);
     private readonly httpclientService: HttpclientService = inject(HttpclientService);
 
     public async getMapping<T>(url: string): Promise<T> {
         try {
             const response: ApiResponse<T> = await firstValueFrom(this.httpclientService.getMapping$<ApiResponse<T>>(url)
-                .pipe(timeout(this.timeOut),
-                    catchError(ex => {
-                        return throwError((): any => ex);
-                    })
-                )
-            );
+                .pipe(timeout(this.timeOut), catchError(ex => throwError((): any => ex))));
             return response.data;
 
         } catch (ex) {
@@ -30,17 +27,12 @@ export class ArchetypeService {
     public async postMapping<T>(url: string, payload: unknown, options?: { context?: HttpContext }): Promise<T> {
         try {
             const response: ApiResponse<T> = await firstValueFrom(this.httpclientService.postMapping$<ApiResponse<T>>(url, payload, options)
-                .pipe(timeout(this.timeOut),
-                    catchError(ex => {
-                        return throwError((): any => ex);
-                    })
-                )
-            );
+                .pipe(timeout(this.timeOut), catchError(ex => throwError((): any => ex))));
             return response.data;
 
         } catch (ex: any) {
             if (ex?.status === 500) {
-                alert('message >> ' + ex?.error?.message);
+                await this.dialogService.confirm(ex?.status, ex?.error?.message);
             }
 
             throw ex;
