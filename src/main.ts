@@ -31,8 +31,7 @@ bootstrapApplication(AppComponent, {
     providers: [
         provideAnimations(), // for Angular Material
         {
-            provide: HTTP_INTERCEPTORS,
-            useClass: Interceptor,
+            provide: HTTP_INTERCEPTORS, useClass: Interceptor,
             multi: true
         },
         provideHttpClient(withInterceptorsFromDi()),
@@ -44,4 +43,4 @@ bootstrapApplication(AppComponent, {
             })
         ),
     ]
-});
+}).then(r => console.log(r));
