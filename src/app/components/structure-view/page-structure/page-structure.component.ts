@@ -11,13 +11,25 @@ import {SelectionModel} from "@angular/cdk/collections";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {PageEndComponent} from "../../dashboard-view/page-end/page-end.component";
 import {Table} from "../../../shared/interface/Table";
-import {MatCard, MatCardActions, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {Field} from "../../../shared/interface/Field";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @Component({
     selector: 'page-structure',
     standalone: true,
-    imports: [CommonModule, MatTable, MatTableModule, PageTitleComponent, MatCheckbox, MatSort, PageEndComponent, MatCardTitle, MatCardSubtitle, MatCardHeader, MatCard, MatCardActions],
+    imports: [CommonModule,
+        MatTable,
+        MatTableModule,
+        PageTitleComponent,
+        MatCheckbox,
+        PageEndComponent,
+        MatCardTitle,
+        MatCardSubtitle,
+        MatCardHeader,
+        MatCard,
+        MatCardActions,
+        MatProgressSpinnerModule, MatCardContent, MatSort],
     templateUrl: './page-structure.component.html',
     styleUrl: './archetype-structure-app.component.css'
 })
@@ -27,12 +39,13 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
     private detailContent: unknown;
     public readonly obj: ApiResponse<any> = {data: ''};
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
-    public readonly selectionModel: SelectionModel<Field> = new SelectionModel<Field>(true, []); // true = multiple selection
+    public selectionModel: SelectionModel<Field> = new SelectionModel<Field>(true, []);
 
     public tables: any[] = [];
     dtsTablesCols: string[] = ['id', 'name', 'fields'];
-    dtsTablesColsWithSelect: string[] = ['select', ...this.dtsTablesCols];
     public dtsTables: MatTableDataSource<any> = new MatTableDataSource<any>();
+
+    public isPageLoading: boolean = true;
 
     ngOnInit(): void {
         const {detailContent} = history.state ?? {};
@@ -40,20 +53,20 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.dataPost();
+        this.initializeProgressBar();
     }
 
-    toggleRow(row: any): void {
+    public toggleRow(row: any): void {
         this.selectionModel.toggle(row);
     }
 
-    isAllSelected(table: any): boolean {
+    public isAllSelected(table: any): boolean {
         const numSelected: number = this.selectionModel.selected.filter(f => table.fields.includes(f)).length;
         const numRows: any = table.fields.length;
         return numSelected === numRows;
     }
 
-    masterToggle(table: Table): void {
+    public masterToggle(table: Table): void {
         this.isAllSelected(table)
             ? table.fields.forEach((f: Field) => this.selectionModel.deselect(f))
             : table.fields.forEach((f: Field) => this.selectionModel.select(f));
@@ -63,11 +76,26 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
         return this.detailContent = detail as string;
     }
 
+    private initializeProgressBar(): void {
+        setTimeout((): void => {
+            this.dataPost();
+            this.isPageLoading = false;
+        }, 1000);
+    }
+
     private initializeForm(tablesResponse: TableResponse): void {
         this.tables = tablesResponse.tables;
         this.dtsTables = new MatTableDataSource<Table>(this.tables);
+        this.dataSourceSort();
+        this.selectingAllCheckboxesOnLoad();
+    }
+
+    private dataSourceSort(): void {
         this.dtsTables.sort = this.sort;
-        this.dtsTables.data.forEach(row => this.selectionModel.select(row));
+    }
+
+    private selectingAllCheckboxesOnLoad(): void {
+        this.selectionModel.select(...this.tables.flatMap(t => t.fields));
     }
 
     private async dataPost(): Promise<void> {
