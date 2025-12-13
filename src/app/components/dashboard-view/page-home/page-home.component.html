@@ -7,7 +7,7 @@
             <mat-card-content class="mat-elevation-z0">
                 <div formGroupName="group1">
                     <!-- Detail Textarea -->
-                    <mat-form-field appearance="fill" class="w-100 mb-1">
+                    <mat-form-field appearance="outline" class="w-100 mb-1">
                         <textarea
                             matInput
                             formControlName="detail"
@@ -23,7 +23,7 @@
                         <!-- File input button -->
                         <div class="col-md-6 col-sm-12 mb-1 mb-md-0">
                             <input type="file" hidden #txtFile (change)="onFileSelected($event)" />
-                            <button type="button" mat-raised-button color="primary" (click)="txtFile.click()">
+                            <button mat-raised-button color="primary" (click)="txtFile.click()">
                                 Choose File
                             </button>
                             <span class="ms-2" *ngIf="selectedFileName">{{ selectedFileName }}</span>
