@@ -15,6 +15,7 @@ import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle,
 import {Field} from "../../../shared/interface/Field";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatDivider} from "@angular/material/divider";
 
 @Component({
     selector: 'page-structure',
@@ -35,7 +36,8 @@ import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
         MatCardContent,
         MatSort,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatDivider
     ],
     templateUrl: './page-structure.component.html',
     styleUrl: './archetype-structure-app.component.css'
@@ -91,7 +93,7 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
         }, 1000);
     }
 
-    private initializeForm(tablesResponse: TableResponse): void {
+    private formShow(tablesResponse: TableResponse): void {
         this.tables = tablesResponse.tables;
         this.dtsTables = new MatTableDataSource<Table>(this.tables);
         this.dataSourceSort();
@@ -109,7 +111,7 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
     private async dataPost(): Promise<void> {
         const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.structure}`;
         const response: TableResponse = await this.archetypeService.postMapping<TableResponse>(url, {data: this.detailContent});
-        this.initializeForm(response);
+        this.formShow(response);
     }
 
     public submit(): void {

@@ -46,9 +46,9 @@ export class PageHomeComponent implements OnInit {
     errorList: string[] = [];
 
     ngOnInit(): void {
-        this.initializeForm();
-        this.initializeErrors();
-        this.loadDetail();
+        this.formShow();
+        this.errorsInitialize();
+        this.detailInitialize();
     }
 
     get detailControl() {
@@ -91,7 +91,7 @@ export class PageHomeComponent implements OnInit {
         reader.readAsText(file);
     }
 
-    private initializeForm(): void {
+    private formShow(): void {
         this.frmHomePage = this.formBuilder.group({
             group1: this.formBuilder.group({
                 detail: [
@@ -108,7 +108,7 @@ export class PageHomeComponent implements OnInit {
         });
     }
 
-    private initializeErrors(): void {
+    private errorsInitialize(): void {
         this.errorList = [
             'The detail content must be at least 2 characters long.',
             'The detail content is empty for generating the structure.',
@@ -122,7 +122,7 @@ export class PageHomeComponent implements OnInit {
         }).then(success => TECHNICAL_LOGGER.info(`Navigation result: ${success}`));
     }
 
-    private async loadDetail(): Promise<void> {
+    private async detailInitialize(): Promise<void> {
         const url = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.detail}`;
         this.detail.data = await this.archetypeService.getMapping(url);
         this.detailControl?.setValue(this.detail.data);

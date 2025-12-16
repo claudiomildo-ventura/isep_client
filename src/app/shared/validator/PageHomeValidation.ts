@@ -65,4 +65,8 @@ export class PageHomeValidation {
             return {'textContainsCreateTableValue': true};
         }
     }
+
+    public static whitespace(control: FormControl): ValidationErrors | null {
+        return (control.value || '').trim().length ? null : {'whitespace': true};
+    }
 }

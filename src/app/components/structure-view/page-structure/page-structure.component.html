@@ -20,16 +20,21 @@
                         <mat-card *ngFor="let field of table.fields" class="field-card mat-elevation-z2" appearance="outlined">
 
                             <mat-card-header>
-                                <mat-card-title class="fw-bold"> {{ field.name | uppercase }}</mat-card-title>
-                                <mat-card-subtitle>Type: {{ field.type }}</mat-card-subtitle>
-                                <mat-card-subtitle>Length: {{ field.length }}</mat-card-subtitle>
-                                <mat-card-subtitle>Auto Created: {{ field.isAutoCreated }}</mat-card-subtitle>
-                                <mat-card-subtitle>Is Key: {{ field.isKey }}</mat-card-subtitle>
-                                <mat-card-subtitle>Is not null: {{ field.isNotNull }}</mat-card-subtitle>
+                                <mat-card-title class="fw-bold"> {{ field.columnName | uppercase }}</mat-card-title>
                             </mat-card-header>
 
                             <mat-card-content>
-                                <!-- optional content here -->
+                                <mat-divider class="my-divider"></mat-divider>
+                                <mat-card-subtitle>Type: {{ field.type }}</mat-card-subtitle>
+                                <mat-card-subtitle>Length: {{ field.length }}</mat-card-subtitle>
+                                <mat-card-subtitle>Index: {{ field.index }}</mat-card-subtitle>
+                                <mat-card-subtitle>Length: {{ field.length }}</mat-card-subtitle>
+                                <mat-card-subtitle>Sequence: {{ field.sequence }}</mat-card-subtitle>
+                                <mat-card-subtitle>Auto Created: {{ field.isAutoCreated }}</mat-card-subtitle>
+                                <mat-card-subtitle>Is Primary Key: {{ field.isPrimaryKey }}</mat-card-subtitle>
+                                <mat-card-subtitle>Is Foreign Key: {{ field.isForeignKey }}</mat-card-subtitle>
+                                <mat-card-subtitle>Is Index: {{ field.isIndex }}</mat-card-subtitle>
+                                <mat-card-subtitle>Is not null: {{ field.isNotNull }}</mat-card-subtitle>
                             </mat-card-content>
 
                             <mat-card-actions class="actions-bottom">
