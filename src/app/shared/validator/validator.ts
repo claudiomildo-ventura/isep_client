@@ -1,9 +1,12 @@
 import {FormControl, ValidationErrors} from "@angular/forms";
 
 /**
- * The page home validation.
+ * The validator.
+ *
+ * @author Claudiomildo Ventura.
+ * @since 1.0
  */
-export class PageHomeValidation {
+export class Validator {
 
     /**
      * Validator to ensure a form control's value contains non-whitespace text.
@@ -37,7 +40,6 @@ export class PageHomeValidation {
      * @param control The `FormControl` instance to validate.
      * @returns A validation error object `{ textContainsDefaultValue: true }`
      *          if the control contains the default value; otherwise, `null`.
-     *
      */
     public static textContainsDefaultValue(control: FormControl): ValidationErrors {
         if (control.value?.includes('This program generates')) {
@@ -56,7 +58,6 @@ export class PageHomeValidation {
      * @param control The `FormControl` instance to validate.
      * @returns A validation error object `{ textContainsCreateTableValue: true }`
      *          if the value contains "CREATE TABLE"; otherwise, `null`.
-     *
      */
     public static textContainsCreateTableValue(control: FormControl): ValidationErrors {
         if (control.value?.toLowerCase().includes('create table')) {
@@ -66,7 +67,18 @@ export class PageHomeValidation {
         }
     }
 
+    /**
+     * Validator that checks if the control value contains only whitespace.
+     *
+     * @param control - The form control to validate.
+     * @returns `null` if the value is valid (not empty after trimming),
+     *          otherwise an object `{ whitespace: true }` indicating the error.
+     *
+     * @example
+     * formControl.setValidators(CommonValidators.whitespace);
+     */
     public static whitespace(control: FormControl): ValidationErrors | null {
-        return (control.value || '').trim().length ? null : {'whitespace': true};
+        return (control.value || '').trim().length ? null : { whitespace: true };
     }
+
 }

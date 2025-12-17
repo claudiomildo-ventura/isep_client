@@ -5,7 +5,6 @@
 <page-title></page-title>
 
 <div class="table-container mt-3">
-    <form [formGroup]="frmStructurePage" (ngSubmit)="submit()">
         <table mat-table [dataSource]="dtsTables" matSort class="mat-elevation-z8">
 
             <!-- Fields -->
@@ -28,13 +27,12 @@
                                 <mat-card-subtitle>Type: {{ field.type }}</mat-card-subtitle>
                                 <mat-card-subtitle>Length: {{ field.length }}</mat-card-subtitle>
                                 <mat-card-subtitle>Index: {{ field.index }}</mat-card-subtitle>
-                                <mat-card-subtitle>Length: {{ field.length }}</mat-card-subtitle>
                                 <mat-card-subtitle>Sequence: {{ field.sequence }}</mat-card-subtitle>
                                 <mat-card-subtitle>Auto Created: {{ field.isAutoCreated }}</mat-card-subtitle>
-                                <mat-card-subtitle>Is Primary Key: {{ field.isPrimaryKey }}</mat-card-subtitle>
-                                <mat-card-subtitle>Is Foreign Key: {{ field.isForeignKey }}</mat-card-subtitle>
-                                <mat-card-subtitle>Is Index: {{ field.isIndex }}</mat-card-subtitle>
-                                <mat-card-subtitle>Is not null: {{ field.isNotNull }}</mat-card-subtitle>
+                                <mat-card-subtitle>Primary Key: {{ field.isPrimaryKey }}</mat-card-subtitle>
+                                <mat-card-subtitle>Foreign Key: {{ field.isForeignKey }}</mat-card-subtitle>
+                                <mat-card-subtitle>Index: {{ field.isIndex }}</mat-card-subtitle>
+                                <mat-card-subtitle>Not null: {{ field.isNotNull }}</mat-card-subtitle>
                             </mat-card-content>
 
                             <mat-card-actions class="actions-bottom">
@@ -56,7 +54,6 @@
 
         <div *ngIf="isPageLoading" class="table-overlay"></div>
 
-    </form>
 </div>
 
 <page-end></page-end>
