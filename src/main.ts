@@ -12,24 +12,17 @@ import {AppComponent} from './app/app.component';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {PreloadAllModules, provideRouter, Route, withInMemoryScrolling, withPreloading} from "@angular/router";
-import {ENVIRONMENT} from './environments/environment';
 import {ROUTES} from "./app/app.route";
 import {ERROR_ROUTES} from "./app/core/error/error.route";
 import {TECHNICAL_LOGGER} from "./config/technical-logger";
 import {Interceptor} from "./app/core/interceptor/interceptor";
-import { provideAnimations } from '@angular/platform-browser/animations';
+import {provideAnimations} from '@angular/platform-browser/animations';
 
 export const ALL_ROUTES: Route[] = [...ROUTES, ...ERROR_ROUTES];
 
-if (ENVIRONMENT.production) {
-    TECHNICAL_LOGGER.info('It is running in production mode.');
-} else if (ENVIRONMENT.development) {
-    TECHNICAL_LOGGER.info('It is running in development mode.');
-}
-
 bootstrapApplication(AppComponent, {
     providers: [
-        provideAnimations(), // for Angular Material
+        provideAnimations(),
         {
             provide: HTTP_INTERCEPTORS, useClass: Interceptor,
             multi: true
@@ -43,4 +36,5 @@ bootstrapApplication(AppComponent, {
             })
         ),
     ]
-}).then(r => console.log(r));
+}).then(r => TECHNICAL_LOGGER.info('running application'))
+    .catch(ex => TECHNICAL_LOGGER.error('Error during application bootstrap:', ex));

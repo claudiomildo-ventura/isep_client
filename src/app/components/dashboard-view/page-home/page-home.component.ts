@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {PageHomeValidation} from 'src/app/shared/validator/PageHomeValidation';
+import {Validator} from 'src/app/shared/validator/validator';
 import {ApiResponse} from "../../../shared/interface/ApiResponse";
 import {ArchetypeService} from "../../../core/services/archetype.service";
 import {ENVIRONMENT} from 'src/environments/environment';
@@ -40,15 +40,15 @@ export class PageHomeComponent implements OnInit {
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
 
     frmHomePage!: FormGroup;
-    startValidation = false;
-    selectedFileName = '';
+    startValidation: boolean = false;
+    selectedFileName: string = '';
     detail: ApiResponse<any> = {data: ''};
     errorList: string[] = [];
 
     ngOnInit(): void {
-        this.initializeForm();
-        this.initializeErrors();
-        this.loadDetail();
+        this.formShow();
+        this.errorsInitialize();
+        this.detailInitialize();
     }
 
     get detailControl() {
@@ -68,7 +68,7 @@ export class PageHomeComponent implements OnInit {
 
     public submit(): void {
         if (this.frmHomePage.valid) {
-            const group1Values = this.frmHomePage.get('group1')?.value;
+            const group1Values: any = this.frmHomePage.get('group1')?.value;
             this.navigateToPageStructure(StringFunc.encodeBase64(group1Values.detail));
         } else {
             this.startValidation = true;
@@ -78,20 +78,20 @@ export class PageHomeComponent implements OnInit {
 
     public onFileSelected(event: Event): void {
         const input = event.target as HTMLInputElement;
-        const file = input.files?.[0];
+        const file: File | undefined = input.files?.[0];
         if (!file) return;
 
         this.selectedFileName = file.name;
 
         const reader = new FileReader();
-        reader.onload = () => {
+        reader.onload = (): void => {
             this.detailControl?.setValue(reader.result as string);
             this.detailControl?.updateValueAndValidity();
         };
         reader.readAsText(file);
     }
 
-    private initializeForm(): void {
+    private formShow(): void {
         this.frmHomePage = this.formBuilder.group({
             group1: this.formBuilder.group({
                 detail: [
@@ -99,16 +99,16 @@ export class PageHomeComponent implements OnInit {
                     [
                         Validators.required,
                         Validators.minLength(NUMBER_CONSTANT.INITIALIZE_WITH_2),
-                        PageHomeValidation.textContainsValue,
-                        PageHomeValidation.textContainsDefaultValue,
-                        PageHomeValidation.textContainsCreateTableValue
+                        Validator.textContainsValue,
+                        Validator.textContainsDefaultValue,
+                        Validator.textContainsCreateTableValue
                     ]
                 ]
             })
         });
     }
 
-    private initializeErrors(): void {
+    private errorsInitialize(): void {
         this.errorList = [
             'The detail content must be at least 2 characters long.',
             'The detail content is empty for generating the structure.',
@@ -122,7 +122,7 @@ export class PageHomeComponent implements OnInit {
         }).then(success => TECHNICAL_LOGGER.info(`Navigation result: ${success}`));
     }
 
-    private async loadDetail(): Promise<void> {
+    private async detailInitialize(): Promise<void> {
         const url = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.detail}`;
         this.detail.data = await this.archetypeService.getMapping(url);
         this.detailControl?.setValue(this.detail.data);

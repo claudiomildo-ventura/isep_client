@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpContext} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {API_VERSION, USE_AUTH} from "../interceptor/http-context.tokens";
+import {API_VERSION, USE_AUTH, USE_REQUEST_ID, X_FUNCTION_KEY} from "../interceptor/http-context.tokens";
 
 @Injectable({providedIn: 'root'})
 export class HttpclientService {
@@ -9,13 +9,19 @@ export class HttpclientService {
 
     public getMapping$<R>(url: string, options?: { context?: HttpContext }): Observable<R> {
         return this.http.get<R>(url, {
-            context: options?.context ?? new HttpContext().set(USE_AUTH, true).set(API_VERSION, "v1")
+            context: options?.context ?? new HttpContext()
+                .set(USE_AUTH, true)
+                .set(API_VERSION, "v.1")
         });
     }
 
     public postMapping$<R>(url: string, body: unknown, options?: { context?: HttpContext }): Observable<R> {
         return this.http.post<R>(url, body, {
-            context: options?.context ?? new HttpContext().set(USE_AUTH, true)
+            context: options?.context ?? new HttpContext()
+                .set(USE_AUTH, true)
+                .set(API_VERSION, "v.1")
+                .set(USE_REQUEST_ID, true)
+                .set(X_FUNCTION_KEY, "11111111111111111")
         });
     }
 }

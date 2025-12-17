@@ -1,24 +1,19 @@
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {API_VERSION, CONTENT_LANGUAGE, USE_AUTH} from "./http-context.tokens";
+import {API_VERSION, USE_AUTH, USE_REQUEST_ID, X_FUNCTION_KEY} from "./http-context.tokens";
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
 
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
         const useAuth: boolean = req.context.get(USE_AUTH);
         const apiVersion: string = req.context.get(API_VERSION);
-        const contentLanguage: string = req.context.get(CONTENT_LANGUAGE);
+        const useRequestId: boolean = req.context.get(USE_REQUEST_ID);
+        const functionKey: string = req.context.get(X_FUNCTION_KEY);
 
         let headers: HttpHeaders = req.headers;
 
-        if (apiVersion) {
-            headers = headers.set('X-Api-Version', apiVersion);
-        }
-
-        headers = headers.set('X-Request-Id', crypto.randomUUID().replace(/-/g, ''));
         if (useAuth) {
             const token: string | null = this.getToken();
             if (token) {
@@ -26,11 +21,25 @@ export class Interceptor implements HttpInterceptor {
             }
         }
 
+        headers = headers.set('x-api-version', apiVersion);
+
+        if (req.method === 'GET') {
+            // logic for GET requests
+        }
+
+        if (req.method === 'POST') {
+            if (useRequestId) {
+                headers = headers.set('x-request-id', crypto.randomUUID().replace(/-/g, ''));
+            }
+
+            headers = headers.set('x-function-key', functionKey);
+        }
+
         return next.handle(req.clone({headers}));
     }
 
     private getToken(): string | null {
-        let fakeToken: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"; // create a function to get it from localstorage.
-        return fakeToken;
+         // create a function to get it from localstorage.
+        return "1234567890abcdefgh";
     }
 }
