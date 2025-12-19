@@ -4,40 +4,24 @@ import {ApiResponse} from "../../../shared/interface/ApiResponse";
 import {ENVIRONMENT} from "../../../../environments/environment";
 import {TableResponse} from "../../../shared/interface/TablesResponse";
 import {CommonModule} from "@angular/common";
-import {MatTable, MatTableDataSource, MatTableModule} from "@angular/material/table";
+import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
-import {PageTitleComponent} from "../../dashboard-view/page-title/page-title.component";
 import {SelectionModel} from "@angular/cdk/collections";
-import {MatCheckbox} from "@angular/material/checkbox";
-import {PageEndComponent} from "../../dashboard-view/page-end/page-end.component";
 import {Table} from "../../../shared/interface/Table";
-import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {Field} from "../../../shared/interface/Field";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatDivider} from "@angular/material/divider";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {MaterialModule} from "../../../material.module";
+import {StringFunc} from "../../../shared/string-utils/StringFunc";
+import {NUMBER_CONSTANT} from "../../../shared/NumberConstant";
+import {Validator} from "../../../shared/validator/validator";
 
 @Component({
     selector: 'page-structure',
     standalone: true,
     imports: [
         CommonModule,
-        MatTable,
-        MatTableModule,
-        PageTitleComponent,
-        MatCheckbox,
-        PageEndComponent,
-        MatCardTitle,
-        MatCardSubtitle,
-        MatCardHeader,
-        MatCard,
-        MatCardActions,
-        MatProgressSpinnerModule,
-        MatCardContent,
-        MatSort,
-        FormsModule,
-        ReactiveFormsModule,
-        MatDivider
+        MaterialModule,
+        ReactiveFormsModule
     ],
     templateUrl: './page-structure.component.html',
     styleUrl: './archetype-structure-app.component.css'
@@ -45,14 +29,15 @@ import {MatDivider} from "@angular/material/divider";
 export class PageStructureComponent implements OnInit, AfterViewInit {
     @ViewChild(MatSort) sort!: MatSort;
 
-    frmStructurePage!: FormGroup;
+    public frmStructurePage!: FormGroup;
     private detailContent: unknown;
     public readonly obj: ApiResponse<any> = {data: ''};
+    private readonly formBuilder: FormBuilder = inject(FormBuilder);
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
     public selectionModel: SelectionModel<Field> = new SelectionModel<Field>(true, []);
 
     public tables: any[] = [];
-    dtsTablesCols: string[] = ['fields'];
+    public dtsTablesCols: string[] = ['fields'];
     public dtsTables: MatTableDataSource<any> = new MatTableDataSource<any>();
 
     public isPageLoading: boolean = true;
@@ -60,6 +45,7 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         const {detailContent} = history.state ?? {};
         this.getDetail(detailContent);
+        this.formActive();
     }
 
     ngAfterViewInit(): void {
@@ -86,6 +72,11 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
         return this.detailContent = detail as string;
     }
 
+    public submit(): void {
+        const selectedFields: Field[] = this.getSelectedFields();
+        console.log('Selected Field objects:', selectedFields);
+    }
+
     private initializeProgressBar(): void {
         setTimeout((): void => {
             this.dataPost();
@@ -108,13 +99,31 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
         this.selectionModel.select(...this.tables.flatMap(t => t.fields));
     }
 
+    private getSelectedFields(): Field[] {
+        return this.selectionModel.selected;
+    }
+
+
+
+    numSelectedInTable(table: Table): number {
+        const selectedSet = new Set(
+            this.selectionModel.selected.map(f => f.id) // supondo que Field tem id
+        );
+        return (table.fields ?? []).filter(f => selectedSet.has(f.id)).length;
+    }
+
+
+
+
+    private formActive(): void {
+        this.frmStructurePage = this.formBuilder.group({
+            group1: this.formBuilder.group({})
+        });
+    }
+
     private async dataPost(): Promise<void> {
         const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.structure}`;
         const response: TableResponse = await this.archetypeService.postMapping<TableResponse>(url, {data: this.detailContent});
         this.formShow(response);
-    }
-
-    public submit(): void {
-
     }
 }

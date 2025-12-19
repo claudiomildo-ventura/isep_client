@@ -1,5 +1,3 @@
-<page-title></page-title>
-
 <div class="container col-12 mt-3">
     <form [formGroup]="frmHomePage" (ngSubmit)="submit()">
 
@@ -23,7 +21,7 @@
                         <!-- File input button -->
                         <div class="col-md-6 col-sm-12 mb-1 mb-md-0">
                             <input type="file" hidden #txtFile (change)="onFileSelected($event)" />
-                            <button mat-raised-button color="primary" (click)="txtFile.click()">
+                            <button type="button" mat-raised-button color="primary" (click)="txtFile.click()">
                                 Choose File
                             </button>
                             <span class="ms-2" *ngIf="selectedFileName">{{ selectedFileName }}</span>
@@ -35,7 +33,6 @@
                                 type="submit"
                                 mat-raised-button
                                 color="accent"
-                                [disabled]="frmHomePage.invalid"
                             >
                                 <mat-icon>check</mat-icon> Submit
                             </button>
@@ -49,5 +46,3 @@
 
     </form>
 </div>
-
-<page-end></page-end>

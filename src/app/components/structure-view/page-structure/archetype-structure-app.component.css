@@ -4,7 +4,7 @@ table {
 }
 .fields-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 3 equal columns */
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
 }
 
@@ -12,9 +12,8 @@ table {
     min-height: 120px;
     padding: 12px;
     box-sizing: border-box;
-
-    white-space: nowrap;    /* no line breaks */
-    overflow: visible;      /* allow card to expand if needed */
+    white-space: nowrap;
+    overflow: visible;
 }
 
 .loading-overlay {

@@ -10,12 +10,8 @@ import {Router} from "@angular/router";
 import {TECHNICAL_LOGGER} from "../../../../config/technical-logger";
 import {PageEndComponent} from "../page-end/page-end.component";
 import {PageTitleComponent} from "../page-title/page-title.component";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatButtonModule} from "@angular/material/button";
-import {MatIconModule} from "@angular/material/icon";
-import {MatCardModule} from "@angular/material/card";
 import {CommonModule} from "@angular/common";
+import {MaterialModule} from "../../../material.module";
 
 @Component({
     selector: 'page-home',
@@ -25,11 +21,7 @@ import {CommonModule} from "@angular/common";
         PageEndComponent,
         PageTitleComponent,
         ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatIconModule,
-        MatCardModule
+        MaterialModule
     ],
     templateUrl: './page-home.component.html',
     styleUrls: ['./page-home.component.css'],
@@ -39,14 +31,14 @@ export class PageHomeComponent implements OnInit {
     private readonly router: Router = inject(Router);
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
 
-    frmHomePage!: FormGroup;
-    startValidation: boolean = false;
-    selectedFileName: string = '';
-    detail: ApiResponse<any> = {data: ''};
-    errorList: string[] = [];
+    public frmHomePage!: FormGroup;
+    public startValidation: boolean = false;
+    public selectedFileName: string = '';
+    public detail: ApiResponse<any> = {data: ''};
+    public errorList: string[] = [];
 
     ngOnInit(): void {
-        this.formShow();
+        this.formActive();
         this.errorsInitialize();
         this.detailInitialize();
     }
@@ -67,6 +59,7 @@ export class PageHomeComponent implements OnInit {
     }
 
     public submit(): void {
+        console.log('Submit form home page');
         if (this.frmHomePage.valid) {
             const group1Values: any = this.frmHomePage.get('group1')?.value;
             this.navigateToPageStructure(StringFunc.encodeBase64(group1Values.detail));
@@ -91,7 +84,7 @@ export class PageHomeComponent implements OnInit {
         reader.readAsText(file);
     }
 
-    private formShow(): void {
+    private formActive(): void {
         this.frmHomePage = this.formBuilder.group({
             group1: this.formBuilder.group({
                 detail: [
