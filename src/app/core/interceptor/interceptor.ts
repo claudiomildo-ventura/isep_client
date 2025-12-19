@@ -24,7 +24,7 @@ export class Interceptor implements HttpInterceptor {
         headers = headers.set('x-api-version', apiVersion);
 
         if (req.method === 'GET') {
-            // logic for GET requests
+            // logic for GET requests.
         }
 
         if (req.method === 'POST') {

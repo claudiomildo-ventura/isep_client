@@ -1,10 +1,14 @@
 export interface Field {
     id: number;
-    tableId: number;
-    name: string;
+    tableRelationId: number;
+    columnName: string;
     type: string;
+    index: string;
     length: number;
+    sequence: number;
     isAutoCreated: boolean;
-    isKey: boolean;
+    isPrimaryKey: boolean;
+    isForeignKey: boolean;
+    isIndex: boolean;
     isNotNull: boolean;
 }

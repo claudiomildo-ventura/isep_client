@@ -1,6 +1,11 @@
 import {Routes} from '@angular/router';
+import {PageHomeComponent} from "./components/dashboard-view/page-home/page-home.component";
 
 export const ROUTES: Routes = [
+    {
+        path: '',
+        component: PageHomeComponent,
+    },
     {
         path: '',
         redirectTo: 'page-home',

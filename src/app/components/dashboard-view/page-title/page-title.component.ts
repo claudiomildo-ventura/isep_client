@@ -5,14 +5,14 @@ import {ENVIRONMENT} from 'src/environments/environment';
 import {UpperCasePipe} from "@angular/common";
 import {SessionService} from "../../../core/services/session-storage.service";
 import {SESSION_SERVICE} from "../../../../config/session-service";
-import {MatCard} from "@angular/material/card";
+import {MaterialModule} from "../../../material.module";
 
 @Component({
     selector: 'page-title',
     standalone: true,
     imports: [
         UpperCasePipe,
-        MatCard
+        MaterialModule
     ],
     templateUrl: './page-title.component.html',
     styleUrls: ['./page-title.component.css']
