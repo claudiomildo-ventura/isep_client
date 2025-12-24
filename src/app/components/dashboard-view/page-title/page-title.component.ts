@@ -18,23 +18,22 @@ import {MaterialModule} from "../../../material.module";
     styleUrls: ['./page-title.component.css']
 })
 export class PageTitleComponent implements OnInit {
-    @ViewChild('txtTitle') txtTitle!: ElementRef<HTMLSpanElement>;
+    @ViewChild('lblTitle') lblTitle!: ElementRef<HTMLSpanElement>;
 
     public readonly title: ApiResponse<any> = {data: ''};
     private readonly sessionService: SessionService = inject(SessionService);
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
 
     ngOnInit(): void {
-        this.txtTitleInitialize();
+        this.titleInitialize();
     }
 
     private async setTitle(): Promise<void> {
-        const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.title}`;
-        this.title.data = await this.archetypeService.getMapping(url);
+        this.title.data = await this.archetypeService.getMapping(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.title}`);
         this.sessionService.setItem(SESSION_SERVICE.application_title, this.title.data);
     }
 
-    private txtTitleInitialize(): void {
+    private titleInitialize(): void {
         this.sessionService.clear();
         this.setTitle();
     }

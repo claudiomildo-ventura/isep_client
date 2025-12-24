@@ -23,24 +23,34 @@ import {MaterialModule} from "../../../material.module";
     styleUrls: ['./page-home.component.css'],
 })
 export class PageHomeComponent implements OnInit {
-    private readonly fb: FormBuilder = inject(FormBuilder);
-    private readonly router: Router = inject(Router);
-    private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
-
-    public frmHomePage!: FormGroup;
     public startValidation: boolean = false;
-    public selectedFileName: string = '';
-    public detail: ApiResponse<any> = {data: ''};
+    public selectedFileName: string = StringFunc.STRING_EMPTY;
+    public detail: ApiResponse<any> = {data: StringFunc.STRING_EMPTY};
     public errorList: string[] = [];
 
+    private readonly router: Router = inject(Router);
+    private readonly fb: FormBuilder = inject(FormBuilder);
+    private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
+
+    public frm: FormGroup = this.fb.group({
+        detail: [StringFunc.STRING_EMPTY,
+            [
+                Validators.required,
+                Validators.minLength(NUMBER_CONSTANT.INITIALIZE_WITH_2),
+                Validator.textContainsValue,
+                Validator.textContainsDefaultValue,
+                Validator.textContainsCreateTableValue
+            ]
+        ]
+    });
+
     ngOnInit(): void {
-        this.formActive();
         this.errorsInitialize();
-        this.detailInitialize();
+        void this.detailInitialize();
     }
 
     get detailControl(): AbstractControl<any, any> | null {
-        return this.frmHomePage.get('group1.detail');
+        return this.frm.get('group1.detail');
     }
 
     get errorMessage(): string | null {
@@ -55,12 +65,12 @@ export class PageHomeComponent implements OnInit {
     }
 
     public submit(): void {
-        if (this.frmHomePage.valid) {
-            const group1Values: any = this.frmHomePage.get('group1')?.value;
-            this.navigateToPageStructure(StringFunc.encodeBase64(group1Values.detail));
+        if (this.frm.valid) {
+            const detailValue: any = this.frm.getRawValue().detail;
+            this.navigateToPageStructure(StringFunc.encodeBase64(detailValue));
         } else {
             this.startValidation = true;
-            this.frmHomePage.markAllAsTouched();
+            this.frm.markAllAsTouched();
         }
     }
 
@@ -70,30 +80,9 @@ export class PageHomeComponent implements OnInit {
         if (!file) return;
 
         this.selectedFileName = file.name;
-
         const reader = new FileReader();
-        reader.onload = (): void => {
-            this.detailControl?.setValue(reader.result as string);
-            this.detailControl?.updateValueAndValidity();
-        };
+        reader.onload = (): void => this.frm.patchValue({detail: reader.result as string});
         reader.readAsText(file);
-    }
-
-    private formActive(): void {
-        this.frmHomePage = this.fb.group({
-            group1: this.fb.group({
-                detail: [
-                    StringFunc.STRING_EMPTY,
-                    [
-                        Validators.required,
-                        Validators.minLength(NUMBER_CONSTANT.INITIALIZE_WITH_2),
-                        Validator.textContainsValue,
-                        Validator.textContainsDefaultValue,
-                        Validator.textContainsCreateTableValue
-                    ]
-                ]
-            })
-        });
     }
 
     private errorsInitialize(): void {
@@ -111,8 +100,7 @@ export class PageHomeComponent implements OnInit {
     }
 
     private async detailInitialize(): Promise<void> {
-        const url = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.detail}`;
         this.detail.data = await this.archetypeService.getMapping(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.detail}`);
-        this.detailControl?.setValue(this.detail.data);
+        this.frm.patchValue({detail: this.detail.data});
     }
 }

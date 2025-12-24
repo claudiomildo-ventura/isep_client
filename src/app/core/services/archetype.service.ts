@@ -8,7 +8,6 @@ import {DialogService} from "./dialog.service";
 
 @Injectable({providedIn: 'root'})
 export class ArchetypeService {
-
     private readonly timeOut: number = 15000;
     private readonly dialogService: DialogService = inject(DialogService);
     private readonly httpclientService: HttpclientService = inject(HttpclientService);
@@ -45,12 +44,15 @@ export class ArchetypeService {
         }
     }
 
-    public async postMapping<TableResponse>(url: string, payload: unknown, options?: { context?: HttpContext }): Promise<TableResponse> {
+    public async postMapping<T>(url: string, payload: unknown, options?: { context?: HttpContext }): Promise<T> {
         try {
-            const response: TableResponse = await firstValueFrom(this.httpclientService.postMapping$<TableResponse>(url, payload, options)
-                .pipe(timeout(this.timeOut), catchError(ex => throwError((): any => ex))));
-            return response;
-
+            return await firstValueFrom(
+                this.httpclientService.postMapping$<T>(url, payload, options)
+                    .pipe(
+                        timeout(this.timeOut),
+                        catchError(ex => throwError((): any => ex))
+                    )
+            );
         } catch (ex: any) {
             if (ex?.status === 500) {
                 await this.dialogService.confirm(ex?.status, ex?.error?.message);

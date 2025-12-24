@@ -1,0 +1,4 @@
+.space-x-10 {
+    display: flex;
+    gap: 10px;
+}
