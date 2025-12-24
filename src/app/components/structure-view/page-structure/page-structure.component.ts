@@ -14,6 +14,7 @@ import {MaterialModule} from "../../../material.module";
 import {IndexedDbService} from "../../../core/services/indexed-db.service";
 import {TECHNICAL_LOGGER} from "../../../../config/technical-logger";
 import {Router} from "@angular/router";
+import {StringFunc} from "../../../shared/string-utils/StringFunc";
 
 @Component({
     selector: 'page-structure',
@@ -24,28 +25,29 @@ import {Router} from "@angular/router";
         ReactiveFormsModule
     ],
     templateUrl: './page-structure.component.html',
-    styleUrl: './archetype-structure-app.component.css'
+    styleUrl: './page-structure-app.component.css'
 })
 export class PageStructureComponent implements OnInit, AfterViewInit {
-    @ViewChild(MatSort) sort!: MatSort;
-
-    public frmStructurePage!: FormGroup;
     private detailContent: unknown;
-    public readonly obj: ApiResponse<any> = {data: ''};
-    public selectionModel: SelectionModel<Field> = new SelectionModel<Field>(true, []);
-    private readonly formBuilder: FormBuilder = inject(FormBuilder);
-    private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
-    private readonly indexedDbService: IndexedDbService = inject(IndexedDbService);
-    private readonly router: Router = inject(Router);
+    public readonly obj: ApiResponse<any> = {data: StringFunc.STRING_EMPTY};
+    public isPageLoading: boolean = true;
 
     public tables: any[] = [];
     public dtsTablesCols: string[] = ['fields'];
     public dtsTables: MatTableDataSource<any> = new MatTableDataSource<any>();
-    public isPageLoading: boolean = true;
+    public selectionModel: SelectionModel<Field> = new SelectionModel<Field>(true, []);
+
+    @ViewChild(MatSort) sort!: MatSort;
+
+    private readonly router: Router = inject(Router);
+    private readonly fb: FormBuilder = inject(FormBuilder);
+    private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
+    private readonly indexedDbService: IndexedDbService = inject(IndexedDbService);
+
+    public frm: FormGroup = this.fb.group({});
 
     ngOnInit(): void {
         this.getDetailFromDashboardForm();
-        this.formActive();
     }
 
     ngAfterViewInit(): void {
@@ -53,7 +55,7 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
     }
 
     public submit(): void {
-        if (this.frmStructurePage.invalid || this.selectionModel.selected.length === 0) return;
+        if (this.frm.invalid || this.selectionModel.selected.length === 0) return;
 
         const tablesWithFields: Table[] = this.getAllTablesWithFieldsFromStructureForm()
         //this.save(tablesWithFields);
@@ -74,6 +76,28 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
         const numSelected: number = this.selectionModel.selected.filter(f => table.fields.includes(f)).length;
         const numRows: any = table.fields.length;
         return numSelected === numRows;
+    }
+
+    public handleKeydown(event: KeyboardEvent, field: Field): void {
+        // Stop propagation if the keypress is relevant to prevent it from affecting parent elements
+        event.stopPropagation();
+
+        // Example 1: Trigger toggleRow if the SPACE key is pressed
+        if (event.key === ' ') {
+            // Prevent the default action (which the checkbox usually handles anyway,
+            // but this is good practice)
+            event.preventDefault();
+
+            // Call your existing selection logic
+            this.toggleRow(field);
+            console.log('Space bar pressed on checkbox.');
+        }
+
+        // Example 2: Do something else on the ENTER key
+        if (event.key === 'Enter') {
+            console.log('Enter key pressed on checkbox.');
+            // Add your custom logic here
+        }
     }
 
     private selectingAllCheckboxesOnLoad(): void {
@@ -100,15 +124,9 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
         this.selectingAllCheckboxesOnLoad();
     }
 
-    private formActive(): void {
-        this.frmStructurePage = this.formBuilder.group({
-            group1: this.formBuilder.group({})
-        });
-    }
-
     private progressBarInitialize(): void {
         setTimeout((): void => {
-            this.dataPost();
+            void this.dataPost();
             this.isPageLoading = false;
         }, 1000);
     }
@@ -124,13 +142,13 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
     }
 
     private navigateToPageParameter(): void {
-        this.router.navigate(['/page-parameter'], {
-        }).then(success => TECHNICAL_LOGGER.info(`Navigation result: ${success}`));
+        this.router.navigate(['/page-parameter'], {}).then(success => TECHNICAL_LOGGER.info(`Navigation result: ${success}`));
     }
 
     private async dataPost(): Promise<void> {
-        const url: string = `${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.structure}`;
-        const response: TableResponse = await this.archetypeService.postMapping<TableResponse>(url, {data: this.detailContent});
+        const response: TableResponse = await this.archetypeService.postMapping<TableResponse>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.structure}`,
+            {data: this.detailContent}
+        );
         this.formShow(response);
     }
 

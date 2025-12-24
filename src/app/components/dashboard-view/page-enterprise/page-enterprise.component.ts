@@ -14,8 +14,7 @@ import {MaterialModule} from "../../../material.module";
     styleUrl: './page-enterprise.component.css'
 })
 export class PageEnterpriseComponent implements OnInit {
-
-    @ViewChild('txtEnterprise') txtEnterprise!: ElementRef<HTMLParagraphElement>;
+    @ViewChild('lblEnterprise') lblEnterprise!: ElementRef<HTMLParagraphElement>;
 
     public readonly enterprise: ApiResponse<any> = {data: ''};
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
@@ -30,6 +29,6 @@ export class PageEnterpriseComponent implements OnInit {
     }
 
     private txtEnterpriseInitialize(): void {
-        this.setEnterprise();
+        void this.setEnterprise();
     }
 }

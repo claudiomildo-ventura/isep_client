@@ -1,48 +1,36 @@
-<div class="container col-12 mt-3">
-    <form [formGroup]="frmHomePage" (ngSubmit)="submit()">
-
+<form [formGroup]="this.frm" (ngSubmit)="submit()">
+    <ng-container>
         <mat-card>
             <mat-card-content class="mat-elevation-z0">
-                <div formGroupName="group1">
-                    <!-- Detail Textarea -->
-                    <mat-form-field appearance="outline" class="w-100 mb-1">
+
+                <!-- Detail Textarea -->
+                <mat-form-field appearance="outline" class="w-100">
                         <textarea
                             matInput
-                            formControlName="detail"
-                            rows="20"
                             readonly
+                            rows="20"
+                            formControlName="detail"
                         >{{ detail.data }}</textarea>
-                        <mat-error *ngIf="startValidation && errorMessage">{{ errorMessage }}</mat-error>
-                    </mat-form-field>
+                    <mat-error *ngIf="startValidation && errorMessage">{{ errorMessage }}</mat-error>
+                </mat-form-field>
 
-                    <!-- File input + Submit button row -->
-                    <div class="row align-items-center mb-1">
-
-                        <!-- File input button -->
-                        <div class="col-md-6 col-sm-12 mb-1 mb-md-0">
-                            <input type="file" hidden #txtFile (change)="onFileSelected($event)" />
-                            <button type="button" mat-raised-button color="primary" (click)="txtFile.click()">
-                                Choose File
-                            </button>
-                            <span class="ms-2" *ngIf="selectedFileName">{{ selectedFileName }}</span>
-                        </div>
-
-                        <!-- Submit button -->
-                        <div class="col-md-6 col-sm-12 text-md-end text-sm-start">
-                            <button
-                                type="submit"
-                                mat-raised-button
-                                color="accent"
-                            >
-                                <mat-icon>check</mat-icon> Submit
-                            </button>
-                        </div>
-                    </div>
+                <!-- File input + Submit button row -->
+                <div class="d-flex flex-row justify-content-end">
+                    <input #txtFile type="file" hidden (change)="onFileSelected($event)"/>
                 </div>
 
+                <div>
+                    <span *ngIf="selectedFileName">{{ selectedFileName }}</span>
+                </div>
             </mat-card-content>
-
         </mat-card>
+    </ng-container>
 
-    </form>
-</div>
+    <div class="d-flex flex-row justify-content-end mt-3 space-x-10">
+        <button type="button" mat-stroked-button color="accent" (click)="txtFile.click()">Choose File</button>
+        <button type="submit" mat-stroked-button color="accent">
+            <mat-icon>check</mat-icon>
+            Submit
+        </button>
+    </div>
+</form>

@@ -16,8 +16,7 @@ import {MaterialModule} from "../../../material.module";
     styleUrl: './page-end.component.css'
 })
 export class PageEndComponent implements OnInit {
-
-    @ViewChild('txtFooter') txtFooter!: ElementRef<HTMLParagraphElement>;
+    @ViewChild('lblFooter') lblFooter!: ElementRef<HTMLParagraphElement>;
 
     public readonly footer: ApiResponse<any> = {data: ''};
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
@@ -32,6 +31,6 @@ export class PageEndComponent implements OnInit {
     }
 
     private txtEnterpriseInitialize(): void {
-        this.setFooter();
+        void this.setFooter();
     }
 }
