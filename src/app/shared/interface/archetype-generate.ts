@@ -7,5 +7,5 @@ export interface ArchetypeGenerate {
     engPlatform: number
     template: number
     scaffold: number
-    table: Table[]
+    tables: Table[]
 }
