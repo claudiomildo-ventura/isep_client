@@ -7,7 +7,7 @@ export const ENVIRONMENT = {
         enterprise: 'enterprise',
         timezone: 'timezone',
         architectures: 'architectures',
-        databases: 'databases',
+        db_platform: 'db-platform',
         db_engineer: 'db-engineer',
         environments: 'environments',
         templates: 'templates',

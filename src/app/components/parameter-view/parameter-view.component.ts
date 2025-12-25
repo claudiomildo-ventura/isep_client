@@ -28,22 +28,22 @@ import {DialogService} from "../../core/services/dialog.service";
 })
 export class ParameterViewComponent implements OnInit {
     public architectureTitle: string = StringFunc.STRING_EMPTY;
-    public databaseTitle: string = StringFunc.STRING_EMPTY;
+    public dbPlatformTitle: string = StringFunc.STRING_EMPTY;
     public dbEngineerTitle: string = StringFunc.STRING_EMPTY;
     public environmentTitle: string = StringFunc.STRING_EMPTY;
     public templateTitle: string = StringFunc.STRING_EMPTY;
     public scaffoldTitle: string = StringFunc.STRING_EMPTY;
 
     public architectureList: ParameterListResponse[] = [];
-    public databaseList: ParameterListResponse[] = [];
+    public dbPlatformList: ParameterListResponse[] = [];
     public dbEngineerList: ParameterListResponse[] = [];
     public environmentList: ParameterListResponse[] = [];
     public templateList: ParameterListResponse[] = [];
     public scaffoldList: ParameterListResponse[] = [];
 
     @ViewChild('lblArchitecture') lblArchitecture!: ElementRef<HTMLElement>;
-    @ViewChild('lblDatabase') lblDatabase!: ElementRef<HTMLElement>;
-    @ViewChild('lblDatabaseEngineer') lblDatabaseEngineer!: ElementRef<HTMLElement>;
+    @ViewChild('lblDbPlatform') lblDbPlatform!: ElementRef<HTMLElement>;
+    @ViewChild('lblDbEngineer') lblDbEngineer!: ElementRef<HTMLElement>;
     @ViewChild('lblEnvironment') lblEnvironment!: ElementRef<HTMLElement>;
     @ViewChild('lblTemplate') lblTemplate!: ElementRef<HTMLElement>;
     @ViewChild('lblScaffold') lblScaffold!: ElementRef<HTMLElement>;
@@ -55,7 +55,7 @@ export class ParameterViewComponent implements OnInit {
 
     public frm: FormGroup = this.fb.group({
         architecture: [0],
-        database: [0],
+        dbPlatform: [0],
         dbEngineer: [0],
         environment: [0],
         template: [0],
@@ -64,7 +64,7 @@ export class ParameterViewComponent implements OnInit {
 
     ngOnInit(): void {
         void this.architecturesInitialize();
-        void this.databasesInitialize();
+        void this.dbPlatformInitialize();
         void this.dbEngineerInitialize();
         void this.environmentsInitialize();
         void this.templatesInitialize();
@@ -74,7 +74,7 @@ export class ParameterViewComponent implements OnInit {
 
     public async submit(): Promise<void> {
         if (this.frm.invalid) {
-            this.dialogService.alert('Form inválido!');
+            void this.dialogService.alert('Form inválido!');
             return;
         }
 
@@ -118,7 +118,7 @@ export class ParameterViewComponent implements OnInit {
 
         const archetypeGenerate: ArchetypeGenerate = {
             architecture: this.frm.value.architecture,
-            database: this.frm.value.database,
+            dbPlatform: this.frm.value.dbPlatform,
             dbEngineer: this.frm.value.dbEngineer,
             environment: this.frm.value.environment,
             template: this.frm.value.template,
@@ -143,10 +143,10 @@ export class ParameterViewComponent implements OnInit {
         this.frm.patchValue({architecture: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
-    private async databasesInitialize(): Promise<void> {
-        this.databaseTitle = PARAMETERS_LABEL.DATABASE;
-        this.databaseList = await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.databases}`);
-        this.frm.patchValue({database: NUMBER_CONSTANT.INITIALIZE_WITH_0});
+    private async dbPlatformInitialize(): Promise<void> {
+        this.dbPlatformTitle = PARAMETERS_LABEL.DB_PLATFORM;
+        this.dbPlatformList = await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.db_platform}`);
+        this.frm.patchValue({dbPlatform: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
     private async dbEngineerInitialize(): Promise<void> {

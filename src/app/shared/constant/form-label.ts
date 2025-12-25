@@ -1,6 +1,6 @@
 export const PARAMETERS_LABEL = {
     ARCHITECTURE: 'Architectures',
-    DATABASE: 'Databases',
+    DB_PLATFORM: 'Databases Platform',
     DB_ENGINEER: 'Databases Engineer',
     ENVIRONMENT: 'Environments',
     TEMPLATE: 'Templates',

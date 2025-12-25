@@ -11,14 +11,14 @@
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                    <mat-label #lblDatabase>{{ this.databaseTitle }}</mat-label>
-                    <mat-select formControlName="database">
-                        <mat-option *ngFor="let item of this.databaseList" [value]="item.id">{{ item.data }}</mat-option>
+                    <mat-label #lblDbPlatform>{{ this.dbPlatformTitle }}</mat-label>
+                    <mat-select formControlName="dbPlatform">
+                        <mat-option *ngFor="let item of this.dbPlatformList" [value]="item.id">{{ item.data }}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                    <mat-label #lblDatabaseEngineer>{{ this.dbEngineerTitle }}</mat-label>
+                    <mat-label #lblDbEngineer>{{ this.dbEngineerTitle }}</mat-label>
                     <mat-select formControlName="dbEngineer">
                         <mat-option *ngFor="let item of this.dbEngineerList" [value]="item.id">{{ item.data }}</mat-option>
                     </mat-select>
