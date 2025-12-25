@@ -29,14 +29,14 @@ import {DialogService} from "../../core/services/dialog.service";
 export class ParameterViewComponent implements OnInit {
     public architectureTitle: string = StringFunc.STRING_EMPTY;
     public databaseTitle: string = StringFunc.STRING_EMPTY;
-    public databaseEngineerTitle: string = StringFunc.STRING_EMPTY;
+    public dbEngineerTitle: string = StringFunc.STRING_EMPTY;
     public environmentTitle: string = StringFunc.STRING_EMPTY;
     public templateTitle: string = StringFunc.STRING_EMPTY;
     public scaffoldTitle: string = StringFunc.STRING_EMPTY;
 
     public architectureList: ParameterListResponse[] = [];
     public databaseList: ParameterListResponse[] = [];
-    public databaseEngineerList: ParameterListResponse[] = [];
+    public dbEngineerList: ParameterListResponse[] = [];
     public environmentList: ParameterListResponse[] = [];
     public templateList: ParameterListResponse[] = [];
     public scaffoldList: ParameterListResponse[] = [];
@@ -56,7 +56,7 @@ export class ParameterViewComponent implements OnInit {
     public frm: FormGroup = this.fb.group({
         architecture: [0],
         database: [0],
-        databaseEngineer: [0],
+        dbEngineer: [0],
         environment: [0],
         template: [0],
         scaffold: [0]
@@ -65,7 +65,7 @@ export class ParameterViewComponent implements OnInit {
     ngOnInit(): void {
         void this.architecturesInitialize();
         void this.databasesInitialize();
-        void this.databasesEngineerInitialize();
+        void this.dbEngineerInitialize();
         void this.environmentsInitialize();
         void this.templatesInitialize();
         void this.scaffoldsInitialize();
@@ -119,7 +119,7 @@ export class ParameterViewComponent implements OnInit {
         const archetypeGenerate: ArchetypeGenerate = {
             architecture: this.frm.value.architecture,
             database: this.frm.value.database,
-            databaseEngineer: this.frm.value.databaseEngineer,
+            dbEngineer: this.frm.value.dbEngineer,
             environment: this.frm.value.environment,
             template: this.frm.value.template,
             scaffold: this.frm.value.scaffold,
@@ -149,10 +149,10 @@ export class ParameterViewComponent implements OnInit {
         this.frm.patchValue({database: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
-    private async databasesEngineerInitialize(): Promise<void> {
-        this.databaseEngineerTitle = PARAMETERS_LABEL.DATABASE_ENGINEER;
-        this.databaseEngineerList = await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.databases_engineer}`);
-        this.frm.patchValue({databaseEngineer: NUMBER_CONSTANT.INITIALIZE_WITH_0});
+    private async dbEngineerInitialize(): Promise<void> {
+        this.dbEngineerTitle = PARAMETERS_LABEL.DB_ENGINEER;
+        this.dbEngineerList = await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.db_engineer}`);
+        this.frm.patchValue({dbEngineer: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
     private async environmentsInitialize(): Promise<void> {
