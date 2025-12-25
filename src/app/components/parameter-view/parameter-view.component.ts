@@ -28,16 +28,16 @@ import {DialogService} from "../../core/services/dialog.service";
 })
 export class ParameterViewComponent implements OnInit {
     public architectureTitle: string = StringFunc.STRING_EMPTY;
-    public dbPlatformTitle: string = StringFunc.STRING_EMPTY;
-    public dbEngineerTitle: string = StringFunc.STRING_EMPTY;
-    public environmentTitle: string = StringFunc.STRING_EMPTY;
+    public dtbPlatformTitle: string = StringFunc.STRING_EMPTY;
+    public dtbEngineerTitle: string = StringFunc.STRING_EMPTY;
+    public engPlatformTitle: string = StringFunc.STRING_EMPTY;
     public templateTitle: string = StringFunc.STRING_EMPTY;
     public scaffoldTitle: string = StringFunc.STRING_EMPTY;
 
     public architectureList: ParameterListResponse[] = [];
-    public dbPlatformList: ParameterListResponse[] = [];
-    public dbEngineerList: ParameterListResponse[] = [];
-    public environmentList: ParameterListResponse[] = [];
+    public dtbPlatformList: ParameterListResponse[] = [];
+    public dtbEngineerList: ParameterListResponse[] = [];
+    public engPlatformList: ParameterListResponse[] = [];
     public templateList: ParameterListResponse[] = [];
     public scaffoldList: ParameterListResponse[] = [];
 
@@ -55,18 +55,18 @@ export class ParameterViewComponent implements OnInit {
 
     public frm: FormGroup = this.fb.group({
         architecture: [0],
-        dbPlatform: [0],
-        dbEngineer: [0],
-        environment: [0],
+        dtbPlatform: [0],
+        dtbEngineer: [0],
+        engPlatform: [0],
         template: [0],
         scaffold: [0]
     });
 
     ngOnInit(): void {
         void this.architecturesInitialize();
-        void this.dbPlatformInitialize();
-        void this.dbEngineerInitialize();
-        void this.environmentsInitialize();
+        void this.dtbPlatformInitialize();
+        void this.dtbEngineerInitialize();
+        void this.engPlatformInitialize();
         void this.templatesInitialize();
         void this.scaffoldsInitialize();
         void this.loadDataFromIndexedDb();
@@ -120,7 +120,7 @@ export class ParameterViewComponent implements OnInit {
             architecture: this.frm.value.architecture,
             dbPlatform: this.frm.value.dbPlatform,
             dbEngineer: this.frm.value.dbEngineer,
-            environment: this.frm.value.environment,
+            engPlatform: this.frm.value.environment,
             template: this.frm.value.template,
             scaffold: this.frm.value.scaffold,
             table: tables
@@ -143,22 +143,22 @@ export class ParameterViewComponent implements OnInit {
         this.frm.patchValue({architecture: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
-    private async dbPlatformInitialize(): Promise<void> {
-        this.dbPlatformTitle = PARAMETERS_LABEL.DB_PLATFORM;
-        this.dbPlatformList = await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.db_platform}`);
+    private async dtbPlatformInitialize(): Promise<void> {
+        this.dtbPlatformTitle = PARAMETERS_LABEL.DTB_PLATFORM;
+        this.dtbPlatformList = await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.dtb_platform}`);
         this.frm.patchValue({dbPlatform: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
-    private async dbEngineerInitialize(): Promise<void> {
-        this.dbEngineerTitle = PARAMETERS_LABEL.DB_ENGINEER;
-        this.dbEngineerList = await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.db_engineer}`);
+    private async dtbEngineerInitialize(): Promise<void> {
+        this.dtbEngineerTitle = PARAMETERS_LABEL.DTB_ENGINEER;
+        this.dtbEngineerList = await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.dtb_engineer}`);
         this.frm.patchValue({dbEngineer: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
-    private async environmentsInitialize(): Promise<void> {
-        this.environmentTitle = PARAMETERS_LABEL.ENVIRONMENT;
-        this.environmentList = await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.environments}`);
-        this.frm.patchValue({environment: NUMBER_CONSTANT.INITIALIZE_WITH_0});
+    private async engPlatformInitialize(): Promise<void> {
+        this.engPlatformTitle = PARAMETERS_LABEL.ENG_PLATFORM;
+        this.engPlatformList = await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.eng_platform}`);
+        this.frm.patchValue({engPlatform: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
     private async templatesInitialize(): Promise<void> {

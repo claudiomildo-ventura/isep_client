@@ -4,7 +4,7 @@ export interface ArchetypeGenerate {
     architecture: number
     dbPlatform: number
     dbEngineer: number
-    environment: number
+    engPlatform: number
     template: number
     scaffold: number
     table: Table[]
