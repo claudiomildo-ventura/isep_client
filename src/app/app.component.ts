@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {RouterOutlet} from "@angular/router";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
-import {PageEndComponent} from "./components/dashboard-view/page-end/page-end.component";
-import {PageTitleComponent} from "./components/dashboard-view/page-title/page-title.component";
+import {PageEndComponent} from "./components/page-end/page-end.component";
+import {PageTitleComponent} from "./components/page-title/page-title.component";
 
 @Component({
     selector: 'app-root',

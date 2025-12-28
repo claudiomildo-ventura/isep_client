@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageEnterpriseComponent } from './page-enterprise.component';
+import { PageEnterpriseComponent } from 'src/app/components/page-enterprise/page-enterprise.component';
 
 describe('PageEnterpriseComponent', () => {
   let component: PageEnterpriseComponent;
