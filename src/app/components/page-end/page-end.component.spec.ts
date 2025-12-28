@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageTitleComponent } from './page-title.component';
+import { PageEndComponent } from 'src/app/components/page-end/page-end.component';
 
-describe('PageTitleComponent', () => {
-  let component: PageTitleComponent;
-  let fixture: ComponentFixture<PageTitleComponent>;
+describe('PageEndComponent', () => {
+  let component: PageEndComponent;
+  let fixture: ComponentFixture<PageEndComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PageTitleComponent]
+      imports: [PageEndComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PageTitleComponent);
+    fixture = TestBed.createComponent(PageEndComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

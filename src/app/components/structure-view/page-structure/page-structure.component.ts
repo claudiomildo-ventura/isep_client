@@ -5,16 +5,16 @@ import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import {Router} from "@angular/router";
-import {TECHNICAL_LOGGER} from "../../../../config/technical-logger";
-import {ENVIRONMENT} from "../../../../environments/environment";
-import {ArchetypeService} from "../../../core/services/archetype.service";
-import {IndexedDbService} from "../../../core/services/indexed-db.service";
-import {MaterialModule} from "../../../material.module";
-import {ApiResponse} from "../../../shared/interface/ApiResponse";
-import {Field} from "../../../shared/interface/Field";
-import {Table} from "../../../shared/interface/Table";
-import {TableResponse} from "../../../shared/interface/TablesResponse";
-import {StringFunc} from "../../../shared/string-utils/StringFunc";
+import {ArchetypeService} from "src/app/core/services/archetype.service";
+import {IndexedDbService} from "src/app/core/services/indexed-db.service";
+import {MaterialModule} from "src/app/material.module";
+import {ApiResponse} from "src/app/shared/interface/ApiResponse";
+import {Field} from "src/app/shared/interface/Field";
+import {Table} from "src/app/shared/interface/Table";
+import {TableResponse} from "src/app/shared/interface/TablesResponse";
+import {StringFunc} from "src/app/shared/string-utils/StringFunc";
+import {TECHNICAL_LOGGER} from "src/config/technical-logger";
+import {ENVIRONMENT} from "src/environments/environment";
 
 @Component({
     selector: 'page-structure',
@@ -29,20 +29,18 @@ import {StringFunc} from "../../../shared/string-utils/StringFunc";
 })
 export class PageStructureComponent implements OnInit, AfterViewInit {
     private detailContent: unknown;
-    public readonly obj: ApiResponse<any> = {data: StringFunc.STRING_EMPTY};
     public isPageLoading: boolean = true;
-
     public tables: any[] = [];
     public dtsTablesCols: string[] = ['fields'];
     public dtsTables: MatTableDataSource<any> = new MatTableDataSource<any>();
     public selectionModel: SelectionModel<Field> = new SelectionModel<Field>(true, []);
 
-    @ViewChild(MatSort) sort!: MatSort;
-
-    private readonly router: Router = inject(Router);
     private readonly fb: FormBuilder = inject(FormBuilder);
+    private readonly router: Router = inject(Router);
     private readonly archetypeService: ArchetypeService = inject(ArchetypeService);
     private readonly indexedDbService: IndexedDbService = inject(IndexedDbService);
+
+    @ViewChild(MatSort) sort!: MatSort;
 
     public frm: FormGroup = this.fb.group({});
 
@@ -69,8 +67,8 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
 
     public toggleAll(table: Table): void {
         this.isAllSelected(table)
-            ? table.fields.forEach((f: Field) => this.selectionModel.deselect(f))
-            : table.fields.forEach((f: Field) => this.selectionModel.select(f));
+            ? table.fields.forEach((f: Field): boolean | void => this.selectionModel.deselect(f))
+            : table.fields.forEach((f: Field): boolean | void => this.selectionModel.select(f));
     }
 
     public isAllSelected(table: any): boolean {
@@ -127,7 +125,6 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
 
     private progressBarInitialize(): void {
 
-        //this.progressBarComponent.progressBarInitialize(this.dataPost);
         setTimeout((): void => {
             void this.dataPost();
             this.isPageLoading = false;
