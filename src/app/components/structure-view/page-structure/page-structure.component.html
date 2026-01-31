@@ -6,7 +6,10 @@
                     <ng-container matColumnDef="fields">
                         <td mat-cell *matCellDef="let table" class="pb-4">
 
-                            <mat-checkbox (change)="$event ? toggleAll(table) : null" [checked]="isAllSelected(table)">
+                            <mat-checkbox
+                                (change)="toggleAllCheckboxes(table)"
+                                [checked]="areAllCheckboxesSelected(table)"
+                                [indeterminate]="isSomeCheckboxesSelected(table)">
                                 <span class="table-title" [style.user-select]="'none'" [innerHTML]="(table.id + ' - ' + (table.name | uppercase)) | bold"></span>
                             </mat-checkbox>
 

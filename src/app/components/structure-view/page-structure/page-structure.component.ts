@@ -63,20 +63,23 @@ export class PageStructureComponent implements OnInit, AfterViewInit {
         this.navigateToPageParameter();
     }
 
-    public toggleRow(row: any): void {
-        this.selectionModel.toggle(row);
+    public toggleRow(field: Field): void {
+        this.selectionModel.toggle(field);
     }
 
-    public toggleAll(table: Table): void {
-        this.isAllSelected(table)
+    public toggleAllCheckboxes(table: Table): void {
+        this.areAllCheckboxesSelected(table)
             ? table.fields.forEach((f: Field): boolean | void => this.selectionModel.deselect(f))
             : table.fields.forEach((f: Field): boolean | void => this.selectionModel.select(f));
     }
 
-    public isAllSelected(table: any): boolean {
-        const numSelected: number = this.selectionModel.selected.filter(f => table.fields.includes(f)).length;
-        const numRows: any = table.fields.length;
-        return numSelected === numRows;
+    public areAllCheckboxesSelected(table: Table): boolean {
+        return table.fields.length > 0 && table.fields.every(f => this.selectionModel.isSelected(f));
+    }
+
+    public isSomeCheckboxesSelected(table: Table): boolean {
+        const selectedCount = table.fields.filter(f => this.selectionModel.isSelected(f)).length;
+        return selectedCount > 0 && selectedCount < table.fields.length;
     }
 
     public handleKeydown(event: KeyboardEvent, field: Field): void {
