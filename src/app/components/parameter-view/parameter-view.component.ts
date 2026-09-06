@@ -200,37 +200,37 @@ export class ParameterViewComponent implements OnInit {
     }
 
     private async architecturesInitialize(): Promise<void> {
-        this._architecture.set({payload: await this.archetypeService.getMapping(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.architecture}`)});
+        this._architecture.set({payload: 'Architecture'});
         this._architectures.set(await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.architectures}`));
         this.frm.patchValue({architectures: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
     private async databasePlatformInitialize(): Promise<void> {
-        this._databasePlatform.set({payload: await this.archetypeService.getMapping(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.database_platform}`)});
+        this._databasePlatform.set({payload: 'Database platform'});
         this._databasePlatforms.set(await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.database_platforms}`));
         this.frm.patchValue({databasePlatforms: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
     private async databaseEngineerInitialize(): Promise<void> {
-        this._databaseEngineer.set({payload: await this.archetypeService.getMapping(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.database_engineer}`)});
+        this._databaseEngineer.set({payload: 'Database engineer'});
         this._databaseEngineers.set(await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.database_engineers}`));
         this.frm.patchValue({databaseEngineers: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
     private async engineeringPlatformInitialize(): Promise<void> {
-        this._engineeringPlatform.set({payload: await this.archetypeService.getMapping(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.engineering_platform}`)});
+        this._engineeringPlatform.set({payload: 'Engineering platform'});
         this._engineeringPlatforms.set(await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.engineering_platforms}`));
         this.frm.patchValue({engineeringPlatforms: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
     private async templatesInitialize(): Promise<void> {
-        this._template.set({payload: await this.archetypeService.getMapping(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.template}`)});
+        this._template.set({payload: 'Template'});
         this._templates.set(await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.templates}`));
         this.frm.patchValue({templates: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }
 
     private async projectTemplatesInitialize(): Promise<void> {
-        this._projectTemplate.set({payload: await this.archetypeService.getMapping(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.project_template}`)});
+        this._projectTemplate.set({payload: 'Project template'});
         this._projectTemplates.set(await this.archetypeService.getMappingList<ParameterListResponse[]>(`${ENVIRONMENT.basePath}${ENVIRONMENT.endpoints.project_templates}`));
         this.frm.patchValue({projectTemplates: NUMBER_CONSTANT.INITIALIZE_WITH_0});
     }

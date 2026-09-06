@@ -58,13 +58,13 @@
 
     <div class="d-flex flex-column flex-sm-row justify-content-end mt-3 gap-2">
         <button type="submit" mat-stroked-button color="accent" class="submit-btn"
-                [disabled]="isPageLoading || frm.invalid || selectionModel.selected.length === 0">
-            <mat-icon *ngIf="!isPageLoading">check</mat-icon>
-            <span *ngIf="!isPageLoading">Submit</span>
+                [disabled]="!canSubmit()">
+            <mat-icon *ngIf="canSubmit()">check</mat-icon>
+            <span>Submit</span>
         </button>
     </div>
 
-    <div *ngIf="isPageLoading" class="table-overlay"></div>
+    <div *ngIf="isPageLoading()" class="table-overlay"></div>
 </form>
 
 <progress-bar></progress-bar>
